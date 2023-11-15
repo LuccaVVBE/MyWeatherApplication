@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyWeatherApplication</string>
+    <string name="List">List</string>
+    <string name="Local">Local</string>
+    <string name="back_button">back</string>
+    <string name="detail">Gekozen locatie</string>
+    <string name="list">lijst</string>
+</resources>
