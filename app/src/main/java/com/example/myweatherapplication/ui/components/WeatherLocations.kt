@@ -1,5 +1,6 @@
 package com.example.myweatherapplication.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -23,23 +24,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun WeatherLocations(modifier: Modifier){
+fun WeatherLocations(modifier: Modifier, goToClickedLocation: (locatie: String) -> Unit){
     val listState = rememberLazyListState();
     LazyColumn(state = listState) {
         items(3) {
-            WeatherLocation(modifier)
+            WeatherLocation(modifier, goToClickedLocation)
         }
     }
 }
 
 @Composable
-fun WeatherLocation(modifier:Modifier) {
+fun WeatherLocation(modifier: Modifier, goToClickedLocation: (locatie: String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .height(IntrinsicSize.Min)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable{goToClickedLocation("test")},
+
     ) {
         Column(
             modifier = Modifier.padding(8.dp),
