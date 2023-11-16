@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,15 +18,32 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myweatherapplication.ui.model.LocatieInfo
+import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
 
 @Composable
-fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier){
+fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, currentWeatherViewModel: LocationWeatherViewModel = viewModel()  ){
+    val currentWeatherState by currentWeatherViewModel.uiState.collectAsState();
 
+    fun getLocatieInfo():LocatieInfo{
+        return LocatieInfo(
+            currentWeatherState.temp,
+            currentWeatherState.icon,
+            currentWeatherState.windSpeed,
+            currentWeatherState.windDirection,
+            currentWeatherState.pressure,
+            currentWeatherState.humidity,
+            currentWeatherState.visibility,
+            currentWeatherState.uv
+            )
+    }
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -47,17 +63,36 @@ fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier){
 
     }
     Column(modifier=modifier.padding( top = 100.dp)) {
-         LazyVerticalGrid(columns =  GridCells.Fixed(2), contentPadding = PaddingValues(16.dp)){
-                items(8){
-                    MyWeatherInfoCard(modifier = Modifier.padding(bottom=20.dp))
-                }
-         }
+         WeatherInfoGrid(getLocatieInfo(), Modifier)
     }
 
 }
 
 @Composable
-fun MyWeatherInfoCard(modifier:Modifier){
+fun WeatherInfoGrid(locatieInfo: LocatieInfo, modifier:Modifier) {
+
+    val cards = listOf(
+        MyWeatherInfoCard(modifier, "temp", locatieInfo.temp.toString()),
+        MyWeatherInfoCard(modifier, "pressure", locatieInfo.pressure.toString()),
+        MyWeatherInfoCard(modifier, "windspeed", locatieInfo.windSpeed.toString()),
+        MyWeatherInfoCard(modifier, "winddirection", locatieInfo.windDirection.toString()),
+        MyWeatherInfoCard(modifier, "humidity", locatieInfo.humidity.toString()),
+        MyWeatherInfoCard(modifier, "visibility", locatieInfo.visibility.toString()),
+        MyWeatherInfoCard(modifier, "uv", locatieInfo.uv.toString().plus("%")),
+
+    )
+
+
+    LazyVerticalGrid(columns =  GridCells.Fixed(2), contentPadding = PaddingValues(16.dp)){
+            items(cards.size){index ->
+                cards[index];
+        }
+    }
+}
+
+
+@Composable
+fun MyWeatherInfoCard(modifier: Modifier, name: String, value: String){
     Card(
         modifier
             .size(120.dp)
@@ -68,8 +103,8 @@ fun MyWeatherInfoCard(modifier:Modifier){
     ){
         Box(contentAlignment = Alignment.Center){
             Column(verticalArrangement = Arrangement.Center) {
-                Text(text = "Info naam"  )
-                Text(text = "Info value" )
+                Text(text = name  )
+                Text(text = value )
             }
         }
     }
