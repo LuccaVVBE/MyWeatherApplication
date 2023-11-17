@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun WeatherLocations(modifier: Modifier, goToClickedLocation: (locatie: String) -> Unit){
+fun WeatherLocations(modifier: Modifier, goToClickedLocation: (location:String) -> Unit){
     val listState = rememberLazyListState();
     LazyColumn(state = listState) {
         items(3) {
@@ -34,14 +34,14 @@ fun WeatherLocations(modifier: Modifier, goToClickedLocation: (locatie: String) 
 }
 
 @Composable
-fun WeatherLocation(modifier: Modifier, goToClickedLocation: (locatie: String) -> Unit) {
+fun WeatherLocation(modifier: Modifier, goToClickedLocation: (location:String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .height(IntrinsicSize.Min)
             .fillMaxWidth()
-            .clickable{goToClickedLocation("test")},
+            .clickable{goToClickedLocation("London")},
 
     ) {
         Column(

@@ -23,10 +23,9 @@ import com.example.myweatherapplication.ui.components.WeatherTopAppBar
 import com.example.myweatherapplication.ui.viewModel.HomeViewModel
 
 @Composable
-fun WeatherApp(navController: NavHostController = rememberNavController(), homeViewModel: HomeViewModel = viewModel()) {
+fun WeatherApp(navController: NavHostController = rememberNavController(), homeViewModel:HomeViewModel=viewModel()) {
 
     val uiState by homeViewModel.uiState.collectAsState()
-
     val backStackEntry by navController.currentBackStackEntryAsState()
 
     val canNavigateBack = navController.previousBackStackEntry != null
@@ -45,7 +44,7 @@ fun WeatherApp(navController: NavHostController = rememberNavController(), homeV
 
     val goToList = { navController.navigate(WeatherOverviewScreen.List.name) }
 
-    val goToClickedLocation: (locatie:String)-> Unit = {
+    val goToClickedLocation: (location:String)-> Unit = {
         homeViewModel.setChosenLocation(it)
         navController.navigate(WeatherOverviewScreen.Detail.name)
     }
@@ -64,7 +63,7 @@ fun WeatherApp(navController: NavHostController = rememberNavController(), homeV
         },
 
     ) { innerPadding ->
-
+//todo bring to different component
         NavHost(
             navController = navController,
             startDestination = WeatherOverviewScreen.Start.name,

@@ -29,21 +29,17 @@ import com.example.myweatherapplication.ui.model.LocatieInfo
 import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
 
 @Composable
-fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, currentWeatherViewModel: LocationWeatherViewModel = viewModel()  ){
-    val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
+fun CurrentWeatherOverview(
+    modifier: Modifier,
+    currentWeatherViewModel: LocationWeatherViewModel = viewModel(),
+    location: String = "",
 
-    fun getLocatieInfo():LocatieInfo{
-        return LocatieInfo(
-            currentWeatherState.temp,
-            currentWeatherState.icon,
-            currentWeatherState.windSpeed,
-            currentWeatherState.windDirection,
-            currentWeatherState.pressure,
-            currentWeatherState.humidity,
-            currentWeatherState.visibility,
-            currentWeatherState.uv
-            )
-    }
+){
+    val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
+    currentWeatherViewModel.getApiWeather("Toronto")
+
+
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -53,7 +49,7 @@ fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, current
             .fillMaxWidth()
     ) {
         Text(
-            text = location,
+            text = currentWeatherState.locatieInfo.placeName,
             modifier = modifier
 
                 .padding(16.dp)
@@ -63,7 +59,7 @@ fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, current
 
     }
     Column(modifier=modifier.padding( top = 100.dp)) {
-         WeatherInfoGrid(getLocatieInfo(), Modifier)
+         WeatherInfoGrid(currentWeatherState.locatieInfo, Modifier)
     }
 
 }
@@ -117,3 +113,4 @@ data class CardInfo(
     val name:String,
     val value:String
 )
+
