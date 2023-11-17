@@ -30,7 +30,7 @@ import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
 
 @Composable
 fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, currentWeatherViewModel: LocationWeatherViewModel = viewModel()  ){
-    val currentWeatherState by currentWeatherViewModel.uiState.collectAsState();
+    val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
 
     fun getLocatieInfo():LocatieInfo{
         return LocatieInfo(
@@ -72,29 +72,31 @@ fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, current
 fun WeatherInfoGrid(locatieInfo: LocatieInfo, modifier:Modifier) {
 
     val cards = listOf(
-        MyWeatherInfoCard(modifier, "temp", locatieInfo.temp.toString()),
-        MyWeatherInfoCard(modifier, "pressure", locatieInfo.pressure.toString()),
-        MyWeatherInfoCard(modifier, "windspeed", locatieInfo.windSpeed.toString()),
-        MyWeatherInfoCard(modifier, "winddirection", locatieInfo.windDirection.toString()),
-        MyWeatherInfoCard(modifier, "humidity", locatieInfo.humidity.toString()),
-        MyWeatherInfoCard(modifier, "visibility", locatieInfo.visibility.toString()),
-        MyWeatherInfoCard(modifier, "uv", locatieInfo.uv.toString().plus("%")),
+        CardInfo (modifier, "temp", locatieInfo.temp.toString()),
+        CardInfo(modifier, "pressure", locatieInfo.pressure.toString()),
+        CardInfo(modifier, "windspeed", locatieInfo.windSpeed.toString()),
+        CardInfo(modifier, "winddirection", locatieInfo.windDirection.toString()),
+        CardInfo(modifier, "humidity", locatieInfo.humidity.toString()),
+        CardInfo(modifier, "visibility", locatieInfo.visibility.toString()),
+        CardInfo(modifier, "uv", locatieInfo.uv.toString()),
 
     )
 
 
     LazyVerticalGrid(columns =  GridCells.Fixed(2), contentPadding = PaddingValues(16.dp)){
-            items(cards.size){index ->
-                cards[index];
+
+        items(cards.size){ index ->
+            var card = cards[index]
+            MyWeatherInfoCard(cardInfo = card)
         }
     }
 }
 
 
 @Composable
-fun MyWeatherInfoCard(modifier: Modifier, name: String, value: String){
+fun MyWeatherInfoCard(cardInfo:CardInfo){
     Card(
-        modifier
+        cardInfo.modifier
             .size(120.dp)
             .padding(6.dp)
         ,
@@ -103,9 +105,15 @@ fun MyWeatherInfoCard(modifier: Modifier, name: String, value: String){
     ){
         Box(contentAlignment = Alignment.Center){
             Column(verticalArrangement = Arrangement.Center) {
-                Text(text = name  )
-                Text(text = value )
+                Text(text = cardInfo.name  )
+                Text(text = cardInfo.value )
             }
         }
     }
 }
+
+data class CardInfo(
+    val modifier:Modifier,
+    val name:String,
+    val value:String
+)
