@@ -1,12 +1,24 @@
 package com.example.myweatherapplication.ui.viewModel
 
+import com.example.myweatherapplication.ui.model.LocatieInfo
+
 data class CurrentWeatherState(
-    var temp:Int = 15,
-    var icon:String = "",
-    var windSpeed:Int = 14,
-    var windDirection:Int = 210,
-    var pressure:Int = 1013,
-    var humidity:Int = 60,
-    var visibility:Int = 15,
-    var uv: Int = 2
+    val locatieInfo: LocatieInfo = LocatieInfo(
+        placeName = "Fetching...",
+        temp =15.0,
+        feelsLike = 10.0,
+        icon ="",
+        windSpeed =14.0,
+        windDirection =210,
+        pressure =1013.0,
+        humidity =60,
+        visibility =15.0,
+        uv =2.0),
 )
+
+//the sealed interface has only three possible values
+sealed interface WeatherApiState{
+    data class Success(val weatherLocatieInfo: LocatieInfo) : WeatherApiState
+    object Error: WeatherApiState
+    object Loading : WeatherApiState
+}

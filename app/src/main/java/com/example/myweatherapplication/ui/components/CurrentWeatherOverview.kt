@@ -29,21 +29,16 @@ import com.example.myweatherapplication.ui.model.LocatieInfo
 import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
 
 @Composable
-fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, currentWeatherViewModel: LocationWeatherViewModel = viewModel()  ){
-    val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
+fun CurrentWeatherOverview(
+    modifier: Modifier,
+    currentWeatherViewModel: LocationWeatherViewModel = viewModel(factory=LocationWeatherViewModel.Factory),
+    location: String = "",
 
-    fun getLocatieInfo():LocatieInfo{
-        return LocatieInfo(
-            currentWeatherState.temp,
-            currentWeatherState.icon,
-            currentWeatherState.windSpeed,
-            currentWeatherState.windDirection,
-            currentWeatherState.pressure,
-            currentWeatherState.humidity,
-            currentWeatherState.visibility,
-            currentWeatherState.uv
-            )
-    }
+    ){
+    val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
+    currentWeatherViewModel.getApiWeather("Toronto")
+
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -53,7 +48,7 @@ fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, current
             .fillMaxWidth()
     ) {
         Text(
-            text = location,
+            text = currentWeatherState.locatieInfo.placeName,
             modifier = modifier
 
                 .padding(16.dp)
@@ -63,7 +58,7 @@ fun CurrentWeatherOverview(location:String = "Gent", modifier: Modifier, current
 
     }
     Column(modifier=modifier.padding( top = 100.dp)) {
-         WeatherInfoGrid(getLocatieInfo(), Modifier)
+         WeatherInfoGrid(currentWeatherState.locatieInfo, Modifier)
     }
 
 }
@@ -73,11 +68,13 @@ fun WeatherInfoGrid(locatieInfo: LocatieInfo, modifier:Modifier) {
 
     val cards = listOf(
         CardInfo (modifier, "temp", locatieInfo.temp.toString()),
-        CardInfo(modifier, "pressure", locatieInfo.pressure.toString()),
+        CardInfo (modifier, "Feels like", locatieInfo.feelsLike.toString()),
+
         CardInfo(modifier, "windspeed", locatieInfo.windSpeed.toString()),
         CardInfo(modifier, "winddirection", locatieInfo.windDirection.toString()),
         CardInfo(modifier, "humidity", locatieInfo.humidity.toString()),
         CardInfo(modifier, "visibility", locatieInfo.visibility.toString()),
+        CardInfo(modifier, "pressure", locatieInfo.pressure.toString()),
         CardInfo(modifier, "uv", locatieInfo.uv.toString()),
 
     )

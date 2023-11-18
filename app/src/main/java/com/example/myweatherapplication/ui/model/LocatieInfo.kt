@@ -1,12 +1,14 @@
 package com.example.myweatherapplication.ui.model
 
 data class LocatieInfo(
-    var temp:Int,
+    var placeName:String,
+    var temp: Double,
+    var feelsLike: Double,
     var icon:String,
-    var windSpeed:Int,
+    var windSpeed: Double,
     var windDirection:Int,
-    var pressure:Int,
+    var pressure: Double,
     var humidity:Int,
-    var visibility:Int,
-    var uv: Int
+    var visibility: Double,
+    var uv: Double
 )
