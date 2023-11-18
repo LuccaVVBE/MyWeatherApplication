@@ -64,7 +64,7 @@ fun WeatherApp(navController: NavHostController = rememberNavController(), homeV
         },
 
     ) { innerPadding ->
-
+//todo: bring to different component
         NavHost(
             navController = navController,
             startDestination = WeatherOverviewScreen.Start.name,
