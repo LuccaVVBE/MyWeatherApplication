@@ -29,7 +29,7 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
         viewModelScope.launch {
             try{
                 //use the repository
-                //val tasksRepository = ApiTasksRepository() //repo is now injected
+                //val weatherRepoitory = ApiWeatherRepository() //repo is now injected
                 val weatherInfo = weatherRepository.getWeatherLocation(realLocation)
                 _uiState.update {
                     it.copy(locatieInfo = weatherInfo)
