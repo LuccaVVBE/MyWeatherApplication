@@ -18,6 +18,7 @@ import com.example.myweatherapplication.ui.viewModel.HomeViewModel
 @Composable
 fun Navigation(navController: NavHostController, innerPadding:PaddingValues, homeViewModel: HomeViewModel = viewModel()){
     val uiState by homeViewModel.uiState.collectAsState()
+
     val goToClickedLocation: (locatie:String)-> Unit = {
         homeViewModel.setChosenLocation(it)
         navController.navigate(WeatherOverviewScreen.Detail.name)

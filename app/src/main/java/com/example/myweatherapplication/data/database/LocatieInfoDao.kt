@@ -19,8 +19,8 @@ interface LocatieInfoDao{
     @Delete
     suspend fun delete(locatieInfo: dbLocatieInfo)
 
-    @Query("SELECT * from locatie_info WHERE placeid = :id")
-    fun getItem(id: Int): Flow<dbLocatieInfo>
+    @Query("SELECT * from locatie_info WHERE placeName = :realLocation")
+    fun getItem(realLocation: String): Flow<dbLocatieInfo>
 
     @Query("SELECT * from locatie_info ORDER BY placeName ASC")
     fun getAllItems(): Flow<List<dbLocatieInfo>>

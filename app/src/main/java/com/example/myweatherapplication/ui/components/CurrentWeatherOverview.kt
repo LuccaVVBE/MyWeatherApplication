@@ -1,5 +1,6 @@
 package com.example.myweatherapplication.ui.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,10 +24,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myweatherapplication.ui.model.LocatieInfo
 import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
+import com.example.myweatherapplication.ui.viewModel.WeatherApiState
 
 @Composable
 fun CurrentWeatherOverview(
@@ -36,8 +39,23 @@ fun CurrentWeatherOverview(
 
     ){
     val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
-    currentWeatherViewModel.getApiWeather("Toronto")
-
+    currentWeatherViewModel.getRepoWeatherLocation("Toronto")
+    val context = LocalContext.current
+    fun createToast(text:String ){
+        val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT) // in Activity
+    }
+    var text = "qmsldkjfsfqdklsfjklm"
+    when(currentWeatherViewModel.weatherApiState){
+        is WeatherApiState.Loading -> {
+            createToast("Loading...")
+        }
+        is WeatherApiState.Error->{
+            createToast("Error getting latest info.")
+        }
+        is WeatherApiState.Success ->{
+            createToast("Succesfully fetched latest info.")
+        }
+    }
 
     Card(
         colors = CardDefaults.cardColors(

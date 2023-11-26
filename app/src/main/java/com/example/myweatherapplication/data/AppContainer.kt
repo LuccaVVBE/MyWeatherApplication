@@ -1,5 +1,7 @@
 package com.example.myweatherapplication.data
 
+import android.content.Context
+import com.example.myweatherapplication.data.database.LocatieInfoDb
 import com.example.myweatherapplication.network.WeatherApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -11,7 +13,7 @@ interface AppContainer {
 }
 
 //container that takes care of dependencies
-class DefaultAppContainer(): AppContainer{
+class DefaultAppContainer(private val context : Context): AppContainer{
 
     private val baseUrl = "https://api.weatherapi.com/v1/"
     //to only get the correct values out of my http GET request
@@ -29,9 +31,13 @@ class DefaultAppContainer(): AppContainer{
         retrofit.create(WeatherApiService::class.java)
     }
 
-
+/*
     override val weatherRepository: WeatherRepository by lazy {
         ApiWeatherRepository(retrofitService)
+    }
+ */
+    override val weatherRepository: WeatherRepository by lazy {
+        OfflineWeatherRepository(LocatieInfoDb.getDatabase(context = context).locatieInfoDao())
     }
 
 }
