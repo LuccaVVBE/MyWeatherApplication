@@ -14,9 +14,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 class LocationWeatherViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
@@ -70,19 +72,18 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
 
     fun getRepoWeatherLocation(location: String) {
         try {
-                weatherRepository.getWeatherLocation(location).map {
-                    var loc = it
+
+            viewModelScope.launch {
+                weatherRepository.refresh(location)
+                weatherRepository.getWeatherLocation(location).map { loc ->
                     _uiState.update {
                         it.copy(locatieInfo = loc)
                     }
-                }
-                    .stateIn(
-                        scope = viewModelScope,
-                        started = SharingStarted.WhileSubscribed(5000L),
-                        initialValue = CurrentWeatherState()
-                    )
+                }.first()
+            }
+
             weatherApiState = WeatherApiState.Success
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             weatherApiState = WeatherApiState.Error
         }
     }

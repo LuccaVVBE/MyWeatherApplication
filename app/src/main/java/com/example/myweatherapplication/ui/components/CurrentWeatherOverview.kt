@@ -9,13 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.example.myweatherapplication.ui.model.LocatieInfo
 import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
 import com.example.myweatherapplication.ui.viewModel.WeatherApiState
@@ -42,9 +41,10 @@ fun CurrentWeatherOverview(
     currentWeatherViewModel.getRepoWeatherLocation("Toronto")
     val context = LocalContext.current
     fun createToast(text:String ){
-        val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT) // in Activity
+        val toast = Toast.makeText(context, text, Toast.LENGTH_LONG) // in Activity
+
+        toast.show()
     }
-    var text = "qmsldkjfsfqdklsfjklm"
     when(currentWeatherViewModel.weatherApiState){
         is WeatherApiState.Loading -> {
             createToast("Loading...")
@@ -72,7 +72,7 @@ fun CurrentWeatherOverview(
                 .padding(16.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        Icon(Icons.Outlined.Warning, "Weather icon", modifier = Modifier.align(Alignment.CenterHorizontally))
+        AsyncImage(model = "https:".plus(currentWeatherState.locatieInfo.icon), "Weather icon", modifier = Modifier.align(Alignment.CenterHorizontally).width(128.dp).height(128.dp))
 
     }
     Column(modifier=modifier.padding( top = 100.dp)) {

@@ -1,6 +1,8 @@
 package com.example.myweatherapplication.network
 
 import com.example.myweatherapplication.ui.model.LocatieInfo
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 
 @Serializable()
@@ -34,16 +36,20 @@ data class ApiWeatherCurrentCondition(
 )
 
 //extension function for an ApiWeatherLocation List to convert is to a Domain LocatieInfo List
-fun ApiWeatherLocationInfo.asDomainObject(): LocatieInfo {
+fun Flow<ApiWeatherLocationInfo>.asDomainObject(): Flow<LocatieInfo> {
 
-    return LocatieInfo(location.name,
-        current.temp_c,
-        current.feelslike_c,
-        current.condition.icon,
-        current.wind_kph,
-        current.wind_degree,
-        current.pressure_mb,
-        current.humidity,
-        current.vis_km,
-        current.uv)
+    return this.map {
+        LocatieInfo(
+            it.location.name,
+            it.current.temp_c,
+            it.current.feelslike_c,
+            it.current.condition.icon,
+            it.current.wind_kph,
+            it.current.wind_degree,
+            it.current.pressure_mb,
+            it.current.humidity,
+            it.current.vis_km,
+            it.current.uv
+        )
+    }
 }

@@ -37,7 +37,7 @@ class DefaultAppContainer(private val context : Context): AppContainer{
     }
  */
     override val weatherRepository: WeatherRepository by lazy {
-        OfflineWeatherRepository(LocatieInfoDb.getDatabase(context = context).locatieInfoDao())
+    CachingWeatherRepository(LocatieInfoDb.getDatabase(context = context).locatieInfoDao(), retrofitService)
     }
 
 }

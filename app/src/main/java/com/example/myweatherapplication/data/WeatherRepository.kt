@@ -4,6 +4,9 @@ import com.example.myweatherapplication.data.database.LocatieInfoDao
 import com.example.myweatherapplication.data.database.asDbWeatherLocation
 import com.example.myweatherapplication.data.database.asDomainLocatieInfo
 import com.example.myweatherapplication.data.database.asDomainLocatieInfoList
+import com.example.myweatherapplication.network.WeatherApiService
+import com.example.myweatherapplication.network.asDomainObject
+import com.example.myweatherapplication.network.getWeatherLocationAsFlow
 import com.example.myweatherapplication.ui.model.LocatieInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,12 +22,15 @@ interface WeatherRepository {
     suspend fun deleteWeatherLocation(locatieInfo: LocatieInfo)
 
     suspend fun updateWeatherLocation(locatieInfo: LocatieInfo)
+
+    suspend fun refresh(loc:String)
 }
 
-class OfflineWeatherRepository(private val locatieInfoDao:LocatieInfoDao
+class CachingWeatherRepository(private val locatieInfoDao:LocatieInfoDao, private val weatherApiService:WeatherApiService
 ): WeatherRepository{
     override fun getWeatherLocation(realLocation: String): Flow<LocatieInfo> {
         return locatieInfoDao.getItem(realLocation).map{
+            System.out.println(it.placeName + "is what i have tested")
             it.asDomainLocatieInfo()
         }
     }
@@ -45,6 +51,12 @@ class OfflineWeatherRepository(private val locatieInfoDao:LocatieInfoDao
 
     override suspend fun updateWeatherLocation(locatieInfo: LocatieInfo) {
         locatieInfoDao.update(locatieInfo.asDbWeatherLocation())
+    }
+
+    override suspend fun refresh(loc:String){
+        weatherApiService.getWeatherLocationAsFlow(loc).asDomainObject().collect{
+            value->insertWeatherLocation(value)
+        }
     }
 
 }
