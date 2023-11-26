@@ -41,7 +41,7 @@ fun CurrentWeatherOverview(
     currentWeatherViewModel.getRepoWeatherLocation("Toronto")
     val context = LocalContext.current
     fun createToast(text:String ){
-        val toast = Toast.makeText(context, text, Toast.LENGTH_LONG) // in Activity
+        val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT) // in Activity
 
         toast.show()
     }
@@ -85,15 +85,15 @@ fun CurrentWeatherOverview(
 fun WeatherInfoGrid(locatieInfo: LocatieInfo, modifier:Modifier) {
 
     val cards = listOf(
-        CardInfo (modifier, "temp", locatieInfo.temp.toString()),
-        CardInfo (modifier, "Feels like", locatieInfo.feelsLike.toString()),
+        CardInfo (modifier, "Temperature", locatieInfo.temp.toString(), "°C"),
+        CardInfo (modifier, "Feels like", locatieInfo.feelsLike.toString(),"°C"),
 
-        CardInfo(modifier, "windspeed", locatieInfo.windSpeed.toString()),
-        CardInfo(modifier, "winddirection", locatieInfo.windDirection.toString()),
-        CardInfo(modifier, "humidity", locatieInfo.humidity.toString()),
-        CardInfo(modifier, "visibility", locatieInfo.visibility.toString()),
-        CardInfo(modifier, "pressure", locatieInfo.pressure.toString()),
-        CardInfo(modifier, "uv", locatieInfo.uv.toString()),
+        CardInfo(modifier, "Wind speed", locatieInfo.windSpeed.toString(),"kmh"),
+        CardInfo(modifier, "Wind direction", locatieInfo.windDirection.toString(),"°"),
+        CardInfo(modifier, "Humidity", locatieInfo.humidity.toString(),"%"),
+        CardInfo(modifier, "Visibility", locatieInfo.visibility.toString(),"km"),
+        CardInfo(modifier, "Pressure", locatieInfo.pressure.toString(),"hPa"),
+        CardInfo(modifier, "UV index", locatieInfo.uv.toString(),""),
 
     )
 
@@ -120,8 +120,9 @@ fun MyWeatherInfoCard(cardInfo:CardInfo){
     ){
         Box(contentAlignment = Alignment.Center){
             Column(verticalArrangement = Arrangement.Center) {
-                Text(text = cardInfo.name  )
-                Text(text = cardInfo.value )
+                Text(text = cardInfo.name, modifier = Modifier.padding(horizontal=30.dp, vertical=15.dp) )
+                Text(text = cardInfo.value.plus(cardInfo.unit), Modifier.padding(horizontal=30.dp))
+
             }
         }
     }
@@ -130,5 +131,6 @@ fun MyWeatherInfoCard(cardInfo:CardInfo){
 data class CardInfo(
     val modifier:Modifier,
     val name:String,
-    val value:String
+    val value:String,
+    val unit:String
 )
