@@ -11,12 +11,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myweatherapplication.ui.WeatherOverviewScreen
+import com.example.myweatherapplication.ui.components.CreateTask
 import com.example.myweatherapplication.ui.components.CurrentWeatherOverview
 import com.example.myweatherapplication.ui.components.WeatherLocations
 import com.example.myweatherapplication.ui.viewModel.HomeViewModel
 
 @Composable
-fun Navigation(navController: NavHostController, innerPadding:PaddingValues, homeViewModel: HomeViewModel = viewModel()){
+fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isAddingVisible:Boolean, makeInvisible : ()->Unit, homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)){
     val uiState by homeViewModel.uiState.collectAsState()
 
     val goToClickedLocation: (locatie:String)-> Unit = {
@@ -24,11 +25,19 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, hom
         navController.navigate(WeatherOverviewScreen.Detail.name)
     }
 
+    if(isAddingVisible){
+        CreateTask(
+            weatherLocationName = uiState.newLocationName,
+            onWeatherLocationNameChanged = {homeViewModel.setNewLocationName(it)},
+            onWeatherLocationSave = { homeViewModel.saveNewLocation() },
+            onDismissRequest = { makeInvisible(); homeViewModel.setNewLocationName("") })
+    }
+
 
     NavHost(
         navController = navController,
         startDestination = WeatherOverviewScreen.Start.name,
-        modifier = androidx.compose.ui.Modifier.padding(innerPadding),
+        modifier = Modifier.padding(innerPadding),
     ) {
         composable(route = WeatherOverviewScreen.Start.name) {
             CurrentWeatherOverview(modifier = Modifier)

@@ -14,6 +14,7 @@ data class CurrentWeatherState(
         humidity =60,
         visibility =15.0,
         uv =2.0),
+    val newLocationName:String = ""
 )
 
 data class WeatherLocationListState(

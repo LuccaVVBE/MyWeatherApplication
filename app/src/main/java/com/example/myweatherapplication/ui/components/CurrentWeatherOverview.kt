@@ -34,14 +34,14 @@ import com.example.myweatherapplication.ui.viewModel.WeatherApiState
 fun CurrentWeatherOverview(
     modifier: Modifier,
     currentWeatherViewModel: LocationWeatherViewModel = viewModel(factory=LocationWeatherViewModel.Factory),
-    location: String = "",
+    location: String = "Gent",
 
     ){
     val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
-    currentWeatherViewModel.getRepoWeatherLocation("Toronto")
+    currentWeatherViewModel.getRepoWeatherLocation(location)
     val context = LocalContext.current
     fun createToast(text:String ){
-        val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT) // in Activity
+        val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
 
         toast.show()
     }
@@ -56,7 +56,7 @@ fun CurrentWeatherOverview(
             createToast("Succesfully fetched latest info.")
         }
     }
-
+    
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -72,7 +72,10 @@ fun CurrentWeatherOverview(
                 .padding(16.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        AsyncImage(model = "https:".plus(currentWeatherState.locatieInfo.icon), "Weather icon", modifier = Modifier.align(Alignment.CenterHorizontally).width(128.dp).height(128.dp))
+        AsyncImage(model = "https:".plus(currentWeatherState.locatieInfo.icon), "Weather icon", modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .width(128.dp)
+            .height(128.dp))
 
     }
     Column(modifier=modifier.padding( top = 100.dp)) {
@@ -114,6 +117,7 @@ fun MyWeatherInfoCard(cardInfo:CardInfo){
         cardInfo.modifier
             .size(120.dp)
             .padding(6.dp)
+
         ,
         elevation = CardDefaults.cardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor= Color.LightGray)

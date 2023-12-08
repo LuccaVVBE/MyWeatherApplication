@@ -6,8 +6,7 @@ import com.example.myweatherapplication.ui.model.LocatieInfo
 
 @Entity(tableName="locatie_info")
 data class dbLocatieInfo(
-    @PrimaryKey(autoGenerate=true)
-    val placeid:Int = 0,
+    @PrimaryKey
     val placeName:String = "",
     val temp: Double = 0.0,
     val feelsLike: Double = 0.0,

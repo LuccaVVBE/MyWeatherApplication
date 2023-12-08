@@ -72,8 +72,8 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
 
     fun getRepoWeatherLocation(location: String) {
         try {
-
             viewModelScope.launch {
+                System.out.println("I ran my coroutine scope")
                 weatherRepository.refresh(location)
                 weatherRepository.getWeatherLocation(location).map { loc ->
                     _uiState.update {
@@ -87,6 +87,8 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
             weatherApiState = WeatherApiState.Error
         }
     }
+
+
 
     //object to tell the android framework how to handle the parameter of the viewmodel
     companion object {

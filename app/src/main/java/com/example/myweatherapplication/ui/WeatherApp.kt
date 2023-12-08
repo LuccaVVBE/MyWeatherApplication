@@ -2,26 +2,37 @@ package com.example.myweatherapplication.ui
 
 
 
+import android.util.Log
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myweatherapplication.ui.components.WeatherBottomAppBar
 import com.example.myweatherapplication.ui.components.WeatherTopAppBar
 import com.example.myweatherapplication.ui.navigation.Navigation
-import com.example.myweatherapplication.ui.viewModel.HomeViewModel
 
 @Composable
 fun WeatherApp(navController: NavHostController = rememberNavController()) {
 
 
     val backStackEntry by navController.currentBackStackEntryAsState()
+    var isAddingVisible by remember {
+        mutableStateOf(false)
+    }
 
+
+
+    val showAddLocation : ()->Unit = {
+        Log.d("D", "Changing")
+        isAddingVisible=!isAddingVisible
+    }
     val canNavigateBack = navController.previousBackStackEntry != null
     val navigateUp: () -> Unit = { navController.navigateUp() }
     val goHome: () -> Unit = {
@@ -32,11 +43,13 @@ fun WeatherApp(navController: NavHostController = rememberNavController()) {
     }
 
 
+
+
     val currentScreenTitle = WeatherOverviewScreen.valueOf(
         backStackEntry?.destination?.route ?: WeatherOverviewScreen.Start.name,
     ).title
 
-    val goToList = { navController.navigate(WeatherOverviewScreen.List.name) }
+    val goToList = { navController.navigate(WeatherOverviewScreen.List.name) {launchSingleTop = true} }
 
 
     Scaffold(
@@ -49,12 +62,11 @@ fun WeatherApp(navController: NavHostController = rememberNavController()) {
             )
         },
         bottomBar = {
-            WeatherBottomAppBar(goHome, goToList)
+            WeatherBottomAppBar(goHome, goToList, { showAddLocation() })
         },
 
     ) { innerPadding ->
-//todo: bring to different component
-        Navigation(navController, innerPadding)
+        Navigation(navController, innerPadding, isAddingVisible, makeInvisible = {isAddingVisible = false})
     }
 }
 

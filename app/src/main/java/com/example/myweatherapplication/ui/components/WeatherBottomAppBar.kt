@@ -2,8 +2,6 @@ package com.example.myweatherapplication.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
@@ -16,7 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
 @Composable
-fun WeatherBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit) {
+fun WeatherBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit, showAddLocation: ()-> Unit) {
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.primary,
@@ -34,7 +32,7 @@ fun WeatherBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit) {
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /* do something */ },
+                onClick = { showAddLocation() },
                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
