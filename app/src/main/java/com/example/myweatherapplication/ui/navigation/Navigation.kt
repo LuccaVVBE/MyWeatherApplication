@@ -29,7 +29,7 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
         CreateTask(
             weatherLocationName = uiState.newLocationName,
             onWeatherLocationNameChanged = {homeViewModel.setNewLocationName(it)},
-            onWeatherLocationSave = { homeViewModel.saveNewLocation() },
+            onWeatherLocationSave = { homeViewModel.saveNewLocation(); makeInvisible },
             onDismissRequest = { makeInvisible(); homeViewModel.setNewLocationName("") })
     }
 
