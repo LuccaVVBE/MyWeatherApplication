@@ -8,8 +8,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myweatherapplication.MyWeatherApplication
 import com.example.myweatherapplication.data.WeatherRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-
-import kotlinx.coroutines.flow.StateFlow;
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -24,17 +23,36 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
         }
     }
 
+    fun String.capitalizeWords(delimiter: String = " ") =
+        split(delimiter).joinToString(delimiter) { word ->
+
+            val smallCaseWord = word.lowercase()
+            smallCaseWord.replaceFirstChar(Char::titlecaseChar)
+
+        }
+
     fun setNewLocationName(locationName: String) {
         _uiState.update {
-            it.copy(newLocationName = locationName)
+            it.copy(newLocationName = locationName.capitalizeWords())
+        }
+    }
+
+    fun resetNewLocation(){
+        _uiState.update {
+            it.copy(newLocationName = "", errorMessage = "")
+
         }
     }
 
     fun saveNewLocation() {
         viewModelScope.launch {
-            weatherRepository.refresh(uiState.value.newLocationName)
-            _uiState.update {
-                it.copy(newLocationName = "")
+            try {
+                weatherRepository.refresh(uiState.value.newLocationName)
+                resetNewLocation()
+            }catch(e:Exception){
+                _uiState.update {
+                 it.copy(errorMessage = "Location could not be found, check the spelling again or your internet connection")
+                }
             }
         }
     }

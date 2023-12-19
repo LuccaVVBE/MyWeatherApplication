@@ -30,7 +30,6 @@ class CachingWeatherRepository(private val locatieInfoDao:LocatieInfoDao, privat
 ): WeatherRepository{
     override fun getWeatherLocation(realLocation: String): Flow<LocatieInfo> {
         return locatieInfoDao.getItem(realLocation).map{
-            System.out.println(it.placeName + "is what i have tested")
             it.asDomainLocatieInfo()
         }
     }
@@ -42,7 +41,9 @@ class CachingWeatherRepository(private val locatieInfoDao:LocatieInfoDao, privat
     }
 
     override suspend fun insertWeatherLocation(locatieInfo: LocatieInfo) {
+
         locatieInfoDao.insert(locatieInfo.asDbWeatherLocation())
+
     }
 
     override suspend fun deleteWeatherLocation(locatieInfo: LocatieInfo) {
@@ -54,8 +55,12 @@ class CachingWeatherRepository(private val locatieInfoDao:LocatieInfoDao, privat
     }
 
     override suspend fun refresh(loc:String){
-        weatherApiService.getWeatherLocationAsFlow(loc).asDomainObject().collect{
-            value->insertWeatherLocation(value)
+        try {
+            weatherApiService.getWeatherLocationAsFlow(loc).asDomainObject().collect { value ->
+                insertWeatherLocation(value)
+            }
+        }catch (e:Error){
+            throw Exception()
         }
     }
 

@@ -3,12 +3,13 @@ package com.example.myweatherapplication.ui.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -21,13 +22,16 @@ import androidx.compose.ui.window.Dialog
 import com.example.myweatherapplication.R
 import com.example.myweatherapplication.ui.theme.MyWeatherApplicationTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+
+
 @Composable
 fun CreateTask(
     weatherLocationName: String,
     onWeatherLocationNameChanged: (String) -> Unit,
     onWeatherLocationSave: () -> Unit,
     onDismissRequest: () -> Unit,
+    errorMessage:String
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -44,7 +48,18 @@ fun CreateTask(
                     value = weatherLocationName,
                     onValueChange = onWeatherLocationNameChanged,
                     label = { Text("weatherLocationName") },
+                    supportingText = {
+                        if (errorMessage != "") {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = errorMessage,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    }
                 )
+
+
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.mediumSpacer)))
                 Row {
@@ -53,7 +68,9 @@ fun CreateTask(
                         Text("Cancel")
                     }
                     Spacer(Modifier.width(dimensionResource(id = R.dimen.smallSpacer)))
-                    TextButton(onClick = onWeatherLocationSave) {
+                    TextButton(onClick = {
+                        onWeatherLocationSave()
+                    }){
                         Text("Save")
                     }
                 }
@@ -66,6 +83,6 @@ fun CreateTask(
 @Composable
 fun CreateWeatherLocationPreview() {
     MyWeatherApplicationTheme {
-        CreateTask("Gent", {}, {}, {})
+        CreateTask("Gent", {}, {}, {},"")
     }
 }

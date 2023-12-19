@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 class LocationWeatherViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(CurrentWeatherState())
@@ -65,29 +64,38 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
                         initialValue = WeatherLocationListState()
                     )
             weatherApiState = WeatherApiState.Success
-        } catch (e: IOException) {
-            weatherApiState = WeatherApiState.Error
-        }
-    }
-
-    fun getRepoWeatherLocation(location: String) {
-        try {
-            viewModelScope.launch {
-                System.out.println("I ran my coroutine scope")
-                weatherRepository.refresh(location)
-                weatherRepository.getWeatherLocation(location).map { loc ->
-                    _uiState.update {
-                        it.copy(locatieInfo = loc)
-                    }
-                }.first()
-            }
-
-            weatherApiState = WeatherApiState.Success
         } catch (e: Exception) {
             weatherApiState = WeatherApiState.Error
         }
     }
 
+    fun getRepoWeatherLocation(location: String) {
+        weatherApiState = WeatherApiState.Loading
+        viewModelScope.launch {
+            try {
+
+                System.out.println("I ran my coroutine scope")
+
+                // Perform the refresh only if the data is not in loading state
+                weatherRepository.refresh(location)
+
+                // Set the API state to success after successful data retrieval
+                weatherApiState = WeatherApiState.Success
+
+            } catch (e: Exception) {
+                // Set the API state to error in case of an exception
+                weatherApiState = WeatherApiState.Error
+            } finally {
+                // Fetch the location information
+                val loc = weatherRepository.getWeatherLocation(location).first()
+
+                // Update the UI state with the fetched location information
+                _uiState.update {
+                    it.copy(locatieInfo = loc)
+                }
+            }
+        }
+    }
 
 
     //object to tell the android framework how to handle the parameter of the viewmodel

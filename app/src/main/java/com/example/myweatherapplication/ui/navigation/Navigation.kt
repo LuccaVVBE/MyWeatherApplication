@@ -1,5 +1,14 @@
 package com.example.myweatherapplication.ui.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -16,6 +25,7 @@ import com.example.myweatherapplication.ui.components.CurrentWeatherOverview
 import com.example.myweatherapplication.ui.components.WeatherLocations
 import com.example.myweatherapplication.ui.viewModel.HomeViewModel
 
+
 @Composable
 fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isAddingVisible:Boolean, makeInvisible : ()->Unit, homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)){
     val uiState by homeViewModel.uiState.collectAsState()
@@ -25,12 +35,37 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
         navController.navigate(WeatherOverviewScreen.Detail.name)
     }
 
+    fun scaleIntoContainer(
+        direction: ScaleTransitionDirection = ScaleTransitionDirection.INWARDS,
+        initialScale: Float = if (direction == ScaleTransitionDirection.OUTWARDS) 0.9f else 1.1f
+    ): EnterTransition {
+        return scaleIn(
+            animationSpec = tween(1500, delayMillis = 50),
+            initialScale = initialScale
+        ) + fadeIn(animationSpec = tween(1500, delayMillis = 50))
+    }
+
+    fun scaleOutOfContainer(
+        direction: ScaleTransitionDirection = ScaleTransitionDirection.OUTWARDS,
+        targetScale: Float = if (direction == ScaleTransitionDirection.INWARDS) 0.9f else 1.1f
+    ): ExitTransition {
+        return scaleOut(
+            animationSpec = tween(
+                durationMillis = 1500,
+                delayMillis = 50
+            ), targetScale = targetScale
+        ) + fadeOut(tween(delayMillis = 50))
+    }
+
+
+
     if(isAddingVisible){
         CreateTask(
             weatherLocationName = uiState.newLocationName,
             onWeatherLocationNameChanged = {homeViewModel.setNewLocationName(it)},
-            onWeatherLocationSave = { homeViewModel.saveNewLocation(); makeInvisible },
-            onDismissRequest = { makeInvisible(); homeViewModel.setNewLocationName("") })
+            onWeatherLocationSave = {homeViewModel.saveNewLocation()},
+            onDismissRequest = { makeInvisible(); homeViewModel.resetNewLocation() },
+            errorMessage = uiState.errorMessage)
     }
 
 
@@ -39,14 +74,56 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
         startDestination = WeatherOverviewScreen.Start.name,
         modifier = Modifier.padding(innerPadding),
     ) {
-        composable(route = WeatherOverviewScreen.Start.name) {
-            CurrentWeatherOverview(modifier = Modifier)
+        composable(route = WeatherOverviewScreen.Start.name,
+            enterTransition = {
+            scaleIntoContainer()
+        },
+            exitTransition = {
+                scaleOutOfContainer(direction = ScaleTransitionDirection.INWARDS)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = ScaleTransitionDirection.OUTWARDS)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }) {
+
+                CurrentWeatherOverview(modifier = Modifier.animateContentSize(), location = "Gent")
         }
-        composable(route = WeatherOverviewScreen.List.name) {
+        composable(route = WeatherOverviewScreen.List.name,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = ScaleTransitionDirection.INWARDS)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = ScaleTransitionDirection.OUTWARDS)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }) {
             WeatherLocations(modifier = Modifier, goToClickedLocation)
         }
-        composable(route = WeatherOverviewScreen.Detail.name){
+        composable(route = WeatherOverviewScreen.Detail.name,
+            enterTransition = {
+            scaleIntoContainer()
+        },
+            exitTransition = {
+                scaleOutOfContainer(direction = ScaleTransitionDirection.INWARDS)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = ScaleTransitionDirection.OUTWARDS)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }){
             CurrentWeatherOverview(modifier = Modifier, location = uiState.chosenLocation)
         }
     }
+}
+
+enum class ScaleTransitionDirection {
+    INWARDS,
+    OUTWARDS
 }
