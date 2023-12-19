@@ -97,6 +97,13 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
         }
     }
 
+    fun removeLocation(location:String){
+        viewModelScope.launch {
+            val loc = weatherRepository.getWeatherLocation(location)
+            weatherRepository.deleteWeatherLocation(loc.first())
+        }
+    }
+
 
     //object to tell the android framework how to handle the parameter of the viewmodel
     companion object {

@@ -59,6 +59,7 @@ fun CurrentWeatherOverview(
             is WeatherApiState.Loading -> createToast("Loading...")
             is WeatherApiState.Error -> createToast("Error getting latest info.")
             is WeatherApiState.Success -> createToast("Successfully fetched latest info.")
+            else -> null
         }
         onDispose {  }
     }
