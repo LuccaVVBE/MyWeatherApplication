@@ -45,7 +45,7 @@ fun CreateTask(
                 OutlinedTextField(
                     value = weatherLocationName,
                     onValueChange = onWeatherLocationNameChanged,
-                    label = { Text("weatherLocationName") },
+                    label = { Text("Location name") },
                     supportingText = {
                         if (errorMessage != "") {
                             Text(
