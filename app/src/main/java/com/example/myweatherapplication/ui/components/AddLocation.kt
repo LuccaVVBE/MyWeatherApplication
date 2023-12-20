@@ -23,8 +23,6 @@ import com.example.myweatherapplication.R
 import com.example.myweatherapplication.ui.theme.MyWeatherApplicationTheme
 
 
-
-
 @Composable
 fun CreateTask(
     weatherLocationName: String,
@@ -69,7 +67,7 @@ fun CreateTask(
                     }
                     Spacer(Modifier.width(dimensionResource(id = R.dimen.smallSpacer)))
                     TextButton(onClick = {
-                        onWeatherLocationSave()
+                            onWeatherLocationSave()
                     }){
                         Text("Save")
                     }

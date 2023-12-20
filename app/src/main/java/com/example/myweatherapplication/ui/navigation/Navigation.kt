@@ -2,7 +2,6 @@ package com.example.myweatherapplication.ui.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -63,7 +62,20 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
         CreateTask(
             weatherLocationName = uiState.newLocationName,
             onWeatherLocationNameChanged = {homeViewModel.setNewLocationName(it)},
-            onWeatherLocationSave = {homeViewModel.saveNewLocation()},
+            onWeatherLocationSave = {
+                val result = homeViewModel.saveNewLocation()
+                when (result) {
+                    is HomeViewModel.SaveLocationResult.Success -> {
+                        // Navigate only if the save operation was successful
+                        goToClickedLocation(result.loc)
+                        homeViewModel.resetNewLocation()
+                        makeInvisible()
+                    }
+                    is HomeViewModel.SaveLocationResult.Error -> {
+
+                    }
+                }
+            },
             onDismissRequest = { makeInvisible(); homeViewModel.resetNewLocation() },
             errorMessage = uiState.errorMessage)
     }

@@ -23,7 +23,7 @@ interface WeatherRepository {
 
     suspend fun updateWeatherLocation(locatieInfo: LocatieInfo)
 
-    suspend fun refresh(loc:String)
+    suspend fun refresh(loc:String):String
 }
 
 class CachingWeatherRepository(private val locatieInfoDao:LocatieInfoDao, private val weatherApiService:WeatherApiService
@@ -54,14 +54,17 @@ class CachingWeatherRepository(private val locatieInfoDao:LocatieInfoDao, privat
         locatieInfoDao.update(locatieInfo.asDbWeatherLocation())
     }
 
-    override suspend fun refresh(loc:String){
+    override suspend fun refresh(loc:String):String{
+        var resultName = ""
         try {
             weatherApiService.getWeatherLocationAsFlow(loc).asDomainObject().collect { value ->
                 insertWeatherLocation(value)
+                resultName = value.placeName
             }
         }catch (e:Error){
             throw Exception()
         }
+        return resultName
     }
 
 }

@@ -2,7 +2,6 @@ package com.example.myweatherapplication.ui.viewModel;
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myweatherapplication.MyWeatherApplication
@@ -11,13 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
-    val uiState : StateFlow<HomeState> = _uiState.asStateFlow()
+    val uiState: StateFlow<HomeState> = _uiState.asStateFlow()
 
-    fun setChosenLocation(locatie:String){
+    fun setChosenLocation(locatie: String) {
         _uiState.update {
             it.copy(chosenLocation = locatie)
         }
@@ -37,23 +36,32 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
         }
     }
 
-    fun resetNewLocation(){
+    fun resetNewLocation() {
         _uiState.update {
             it.copy(newLocationName = "", errorMessage = "")
 
         }
     }
 
-    fun saveNewLocation() {
-        viewModelScope.launch {
-            try {
-                weatherRepository.refresh(uiState.value.newLocationName)
-                resetNewLocation()
-            }catch(e:Exception){
-                _uiState.update {
-                 it.copy(errorMessage = "Location could not be found, check the spelling again or your internet connection")
-                }
+
+
+    sealed class SaveLocationResult {
+        data class Success(val loc:String) : SaveLocationResult()
+        object Error : SaveLocationResult()
+    }
+
+    fun saveNewLocation(): SaveLocationResult {
+        return try {
+            var placeAdded = ""
+            runBlocking {
+                placeAdded = weatherRepository.refresh(uiState.value.newLocationName)
             }
+            SaveLocationResult.Success(placeAdded)
+        } catch (e: Exception) {
+            _uiState.update {
+                it.copy(errorMessage = "Location could not be found, check the spelling again or your internet connection")
+            }
+            SaveLocationResult.Error
         }
     }
 
