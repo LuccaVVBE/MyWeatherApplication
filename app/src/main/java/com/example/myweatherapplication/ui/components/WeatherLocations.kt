@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -36,9 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.myweatherapplication.ui.model.LocatieInfo
@@ -113,36 +113,47 @@ fun WeatherLocations(modifier: Modifier, goToClickedLocation: (locatie: String) 
 }
 
 @Composable
-fun WeatherLocation(modifier: Modifier, goToClickedLocation: (locatie: String) -> Unit, locatie:LocatieInfo) {
+fun WeatherLocation(modifier: Modifier, goToClickedLocation: (locatie: String) -> Unit, locatie: LocatieInfo) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .height(IntrinsicSize.Min)
             .fillMaxWidth()
-            .clickable{goToClickedLocation(locatie.placeName)},
-
+            .clickable { goToClickedLocation(locatie.placeName) },
     ) {
         Column(
             modifier = Modifier.padding(8.dp),
-
         ) {
-            Row {
-                AsyncImage(model = "https:".plus(locatie.icon), "Weather icon" )
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = modifier.fillMaxWidth().padding(16.dp)
+            ) {
+                AsyncImage(
+                    model = "https:".plus(locatie.icon),
+                    "Weather icon",
+                    modifier = Modifier
+                        .scale(2.5F, 2.5F)
+                        .padding(end = 8.dp)
+                )
+
+                Spacer(modifier = Modifier.weight(0.5F))
 
                 Text(
                     text = locatie.placeName,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.weight(1F)
+                )
+
+                Spacer(modifier = Modifier.width(8.dp)) // Adjust the spacing as needed
+
+                Text(
+                    text = locatie.temp.toString().plus("°C"),
+                    style= MaterialTheme.typography.bodyLarge
                 )
             }
-
-
-            Text(
-                text = locatie.temp.toString(),
-                fontSize = 14.sp,
-                fontFamily = FontFamily.Monospace,
-            )
             Divider()
         }
     }
 }
+
