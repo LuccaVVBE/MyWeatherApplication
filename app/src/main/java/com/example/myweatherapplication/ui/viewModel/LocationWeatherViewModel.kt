@@ -56,8 +56,9 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
 //            }
     fun getRepoWeatherLocations() {
         try {
-            uiListState =
-                weatherRepository.getWeatherLocations().map { WeatherLocationListState(it) }
+
+                val locations = weatherRepository.getWeatherLocations()
+                    uiListState = locations.map { WeatherLocationListState(it) }
                     .stateIn(
                         scope = viewModelScope,
                         started = SharingStarted.WhileSubscribed(5000L),
@@ -70,6 +71,7 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
     }
 
     fun getRepoWeatherLocation(location: String) {
+        var isError = false;
         weatherApiState = WeatherApiState.Loading
         viewModelScope.launch {
             try {
@@ -85,13 +87,16 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
             } catch (e: Exception) {
                 // Set the API state to error in case of an exception
                 weatherApiState = WeatherApiState.Error
+                isError = true;
             } finally {
                 // Fetch the location information
+                if(!isError){
                 val loc = weatherRepository.getWeatherLocation(location).first()
 
                 // Update the UI state with the fetched location information
                 _uiState.update {
                     it.copy(locatieInfo = loc)
+                }
                 }
             }
         }

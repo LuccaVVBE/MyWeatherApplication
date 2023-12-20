@@ -9,6 +9,7 @@ import com.example.myweatherapplication.network.asDomainObject
 import com.example.myweatherapplication.network.getWeatherLocationAsFlow
 import com.example.myweatherapplication.ui.model.LocatieInfo
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 interface WeatherRepository {
@@ -55,16 +56,14 @@ class CachingWeatherRepository(private val locatieInfoDao:LocatieInfoDao, privat
     }
 
     override suspend fun refresh(loc:String):String{
-        var resultName = ""
         try {
-            weatherApiService.getWeatherLocationAsFlow(loc).asDomainObject().collect { value ->
-                insertWeatherLocation(value)
-                resultName = value.placeName
-            }
+            val location = weatherApiService.getWeatherLocationAsFlow(loc).asDomainObject().first()
+            insertWeatherLocation(location)
+            return location.placeName
         }catch (e:Error){
             throw Exception()
         }
-        return resultName
+
     }
 
 }
