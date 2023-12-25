@@ -20,10 +20,9 @@ Mijn weer app kan gebruikt worden om de actuele weersomstandigheden te bekijken,
 
 ## Screenshots
 
-![App op telefoon, startscherm](/images/Phone_Portrait.png "App op telefoon, startscherm")
-![App op telefoon, lijst met locaties](/images/Phone_Portrait_List.png "App op telefoon, lijst met locaties")
-![App op tablet, startscherm](/images/Tablet_Portrait.png "App op tablet, startscherm")
-![App op tablet, lijst met locaties](/images/Tablet_Landscape.png "App op tablet, lijst met locaties")
+![Overview verschillende schermen](/images/overview.png "Overview schermen")
+
+Originele foto's zijn te vinden in de [images](MyWeatherApplication/blob/master/images) folder
 
 ## Aan de slag
 
