@@ -82,11 +82,9 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
      */
     fun saveNewLocation(): SaveLocationResult {
         return try {
-            var placeAdded = ""
             runBlocking {
-                placeAdded = weatherRepository.refresh(uiState.value.newLocationName)
+                SaveLocationResult.Success(weatherRepository.refresh(uiState.value.newLocationName));
             }
-            SaveLocationResult.Success(placeAdded)
         } catch (e: Exception) {
             _uiState.update {
                 it.copy(errorMessage = "Location could not be found, check the spelling again or your internet connection")

@@ -57,7 +57,7 @@ fun WeatherLocations(modifier: Modifier, goToClickedLocation: (locatie: String) 
     val weatherLocationListState by locationWeatherViewModel.uiListState.collectAsState();
     val listState = rememberLazyListState();
     LazyColumn(state = listState) {
-        itemsIndexed(weatherLocationListState.weatherLocationList, key={_, item->item.placeName}) { index, item ->
+        itemsIndexed(weatherLocationListState.weatherLocationList, key={_, item->item.placeName}) {_, item ->
 
 
             val dismissState = rememberDismissState()
@@ -73,10 +73,9 @@ fun WeatherLocations(modifier: Modifier, goToClickedLocation: (locatie: String) 
                 state = dismissState,
                 directions = setOf(DismissDirection.EndToStart),
                 background = {
-                    // this background is visible when we swipe.
-                    // it contains the icon
+                    // achtergrond dat getoond wordt bij de swipe
 
-                    // background color
+                    
                     val backgroundColor by animateColorAsState(
                         when (dismissState.targetValue) {
                             DismissValue.DismissedToStart -> Color.Red.copy(alpha = 0.8f)
@@ -159,7 +158,7 @@ fun WeatherLocation(modifier: Modifier, goToClickedLocation: (locatie: String) -
                     modifier = Modifier.weight(1F)
                 )
 
-                Spacer(modifier = Modifier.width(8.dp)) // Adjust the spacing as needed
+                Spacer(modifier = Modifier.width(8.dp))
 
                 Text(
                     text = locatie.temp.toString().plus("°C"),

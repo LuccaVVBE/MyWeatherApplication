@@ -66,7 +66,6 @@ fun CurrentWeatherOverview(
             is WeatherApiState.Loading -> createToast("Loading...")
             is WeatherApiState.Error -> createToast("Error getting latest info.")
             is WeatherApiState.Success -> createToast("Successfully fetched latest info.")
-            else -> null
         }
         onDispose {  }
     }
@@ -129,10 +128,7 @@ fun WeatherInfoGrid(locatieInfo: LocatieInfo, modifier: Modifier) {
         CardInfo(modifier, "Pressure", locatieInfo.pressure.toString(), "hPa"),
         CardInfo(modifier, "UV index", locatieInfo.uv.toString(), ""),
     )
-    val enterTransition = fadeIn() + slideInVertically(
-        initialOffsetY = { -it },
-        animationSpec = tween(700, easing = FastOutSlowInEasing)
-    )
+
     LazyVerticalGrid(columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(16.dp)) {
         items(cards.size) { index ->
