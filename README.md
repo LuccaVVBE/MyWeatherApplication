@@ -20,7 +20,10 @@ Mijn weer app kan gebruikt worden om de actuele weersomstandigheden te bekijken,
 
 ## Screenshots
 
-Voeg screenshots van de app toe om een visuele weergave van de functies te bieden.
+![App op telefoon, startscherm](/images/Phone_Portrait.png "App op telefoon, startscherm")
+![App op telefoon, lijst met locaties](/images/Phone_Portrait_List.png "App op telefoon, lijst met locaties")
+![App op tablet, startscherm](/images/Tablet_Portrait.png "App op tablet, startscherm")
+![App op tablet, lijst met locaties](/images/Tablet_Landscape.png "App op tablet, lijst met locaties")
 
 ## Aan de slag
 
@@ -47,6 +50,7 @@ Voeg screenshots van de app toe om een visuele weergave van de functies te biede
 - **Compose:** Jetpack Compose voor het bouwen van de gebruikersinterface.
 - **ViewModel:** Een architectuurcomponent voor het beheren van op UI gerelateerde gegevens.
 - **Dokka:** Een documentatie-engine voor het genereren van code-documentatie.
+- **Retrofit:** Retrofit voor het uitvoeren van netwerkoperaties (API-calls).
 
 ## Auteur
 
