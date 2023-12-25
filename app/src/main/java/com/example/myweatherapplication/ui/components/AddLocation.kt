@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -15,8 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.example.myweatherapplication.R
@@ -32,14 +38,16 @@ import com.example.myweatherapplication.ui.theme.MyWeatherApplicationTheme
  * @param onDismissRequest De callback-functie die wordt aangeroepen wanneer het dialoogvenster wordt gesloten.
  * @param errorMessage Het foutbericht dat moet worden weergegeven (indien aanwezig).
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CreateTask(
+fun CreateLocation(
     weatherLocationName: String,
     onWeatherLocationNameChanged: (String) -> Unit,
     onWeatherLocationSave: () -> Unit,
     onDismissRequest: () -> Unit,
     errorMessage:String
 ) {
+    val focusManager = LocalFocusManager.current
     Dialog(
         onDismissRequest = onDismissRequest,
     ) {
@@ -54,7 +62,10 @@ fun CreateTask(
                 OutlinedTextField(
                     value = weatherLocationName,
                     onValueChange = onWeatherLocationNameChanged,
+                    modifier = Modifier.fillMaxWidth(),
                     label = { Text("Location name") },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = { onWeatherLocationSave() }),
                     supportingText = {
                         if (errorMessage != "") {
                             Text(
@@ -90,6 +101,6 @@ fun CreateTask(
 @Composable
 fun CreateWeatherLocationPreview() {
     MyWeatherApplicationTheme {
-        CreateTask("Gent", {}, {}, {},"")
+        CreateLocation("Gent", {}, {}, {},"")
     }
 }

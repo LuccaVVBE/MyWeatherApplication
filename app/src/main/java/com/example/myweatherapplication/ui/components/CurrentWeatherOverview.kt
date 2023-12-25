@@ -1,10 +1,7 @@
 package com.example.myweatherapplication.ui.components
 
 import android.widget.Toast
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,7 +43,11 @@ fun CurrentWeatherOverview(
     modifier: Modifier,
     currentWeatherViewModel: LocationWeatherViewModel = viewModel(factory = LocationWeatherViewModel.Factory),
     location: String = "Gent",
+    forceNavUp: ()->Unit
 ) {
+    if(location.isBlank()){
+        forceNavUp()
+    }
     val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
 
     // Roep getRepoWeatherLocation alleen aan wanneer de locatie verandert
@@ -129,7 +130,7 @@ fun WeatherInfoGrid(locatieInfo: LocatieInfo, modifier: Modifier) {
         CardInfo(modifier, "UV index", locatieInfo.uv.toString(), ""),
     )
 
-    LazyVerticalGrid(columns = GridCells.Fixed(2),
+    LazyVerticalGrid(columns = GridCells.Adaptive(170.dp),
         contentPadding = PaddingValues(16.dp)) {
         items(cards.size) { index ->
             MyWeatherInfoCard(cardInfo = cards[index])

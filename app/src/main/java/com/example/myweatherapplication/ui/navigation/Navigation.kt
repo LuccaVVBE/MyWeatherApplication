@@ -19,7 +19,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myweatherapplication.ui.WeatherOverviewScreen
-import com.example.myweatherapplication.ui.components.CreateTask
+import com.example.myweatherapplication.ui.components.CreateLocation
 import com.example.myweatherapplication.ui.components.CurrentWeatherOverview
 import com.example.myweatherapplication.ui.components.WeatherLocations
 import com.example.myweatherapplication.ui.viewModel.HomeViewModel
@@ -65,10 +65,14 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
         ) + fadeOut(tween(delayMillis = 50))
     }
 
+    fun forceNavUp(){
+        navController.navigateUp()
+    }
+
 
 
     if(isAddingVisible){
-        CreateTask(
+        CreateLocation(
             weatherLocationName = uiState.newLocationName,
             onWeatherLocationNameChanged = {homeViewModel.setNewLocationName(it)},
             onWeatherLocationSave = {
@@ -109,7 +113,7 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
                 scaleOutOfContainer()
             }) {
 
-                CurrentWeatherOverview(modifier = Modifier.animateContentSize(), location = "Gent")
+                CurrentWeatherOverview(modifier = Modifier.animateContentSize(), location = "Gent", forceNavUp = { forceNavUp() })
         }
         composable(route = WeatherOverviewScreen.List.name,
             enterTransition = {
@@ -139,7 +143,7 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
             popExitTransition = {
                 scaleOutOfContainer()
             }){
-            CurrentWeatherOverview(modifier = Modifier, location = uiState.chosenLocation)
+            CurrentWeatherOverview(modifier = Modifier, location = uiState.chosenLocation, forceNavUp = { forceNavUp() })
         }
     }
 }

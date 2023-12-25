@@ -21,7 +21,7 @@ import androidx.compose.runtime.Composable
  * @param showAddLocation Callback-functie voor het tonen van het dialoogvenster voor het toevoegen van een nieuwe locatie.
  */
 @Composable
-fun WeatherBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit, showAddLocation: ()-> Unit) {
+fun WeatherBottomAppBar(goHome: () -> Unit, goToList: () -> Unit, showAddLocation: ()-> Unit) {
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.primary,
@@ -30,7 +30,7 @@ fun WeatherBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit, showAddLocati
                 Icon(Icons.Outlined.Home, contentDescription = "navigate to home screen")
             }
 
-            IconButton(onClick = goToAbout) {
+            IconButton(onClick = goToList) {
                 Icon(
                     Icons.Filled.List,
                     contentDescription = "navigate to list page",
