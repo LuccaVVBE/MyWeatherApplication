@@ -2,11 +2,14 @@ package com.example.myweatherapplication
 
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeLeft
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.example.myweatherapplication.ui.WeatherApp
@@ -90,5 +93,16 @@ class NavigationTest {
         composeTestRule
             .onNodeWithText(errorMessage)
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun canRemoveLocation(){
+        composeTestRule
+            .onNodeWithContentDescription("navigate to list page")
+            .performClick()
+        composeTestRule.onNodeWithText("Gent")
+            .performTouchInput { swipeLeft() }
+        composeTestRule.onNodeWithText("Gent")
+            .assertIsNotDisplayed()
     }
 }

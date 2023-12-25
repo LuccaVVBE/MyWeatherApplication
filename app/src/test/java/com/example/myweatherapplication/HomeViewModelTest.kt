@@ -57,12 +57,8 @@ class HomeViewModelTest {
 
     @Test
     fun `test save new location success`() = runTest {
-        val locationName = "TestLocation"
-        Mockito.`when`(weatherRepository.refresh(locationName)).thenAnswer(object : Answer<String> {
-            override fun answer(invocation: InvocationOnMock?): String {
-                return locationName
-            }
-        })
+        val locationName = "Testlocation"
+        Mockito.`when`(weatherRepository.refresh(locationName)).thenAnswer { locationName }
         homeViewModel.setNewLocationName(locationName = locationName)
         val result = homeViewModel.saveNewLocation()
         homeViewModel.resetNewLocation()
@@ -84,8 +80,9 @@ class HomeViewModelTest {
     }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class TestDispatcherRule(
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : TestWatcher() {
     override fun starting(description: Description) {
         Dispatchers.setMain(testDispatcher)
