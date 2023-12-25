@@ -13,6 +13,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
+/**
+ * Composable voor de bottombar van de weerapplicatie.
+ *
+ * @param goHome Callback-functie voor het navigeren naar het startscherm.
+ * @param goToAbout Callback-functie voor het navigeren naar de lijstpagina.
+ * @param showAddLocation Callback-functie voor het tonen van het dialoogvenster voor het toevoegen van een nieuwe locatie.
+ */
 @Composable
 fun WeatherBottomAppBar(goHome: () -> Unit, goToAbout: () -> Unit, showAddLocation: ()-> Unit) {
     BottomAppBar(

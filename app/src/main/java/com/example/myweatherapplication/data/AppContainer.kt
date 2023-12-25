@@ -8,15 +8,22 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
+/**
+ * Interface voor het beheren van afhankelijkheden in de applicatie.
+ */
 interface AppContainer {
     val weatherRepository: WeatherRepository
 }
 
-//container that takes care of dependencies
+/**
+ * Standaard implementatie van [AppContainer] die verantwoordelijk is voor het beheren van afhankelijkheden.
+ *
+ * @property context De [Context] van de applicatie.
+ */
 class DefaultAppContainer(private val context : Context): AppContainer{
 
     private val baseUrl = "https://api.weatherapi.com/v1/"
-    //to only get the correct values out of my http GET request
+    // om alleen de juiste waarden uit mijn http GET-verzoek te halen
     private val json = Json{
         ignoreUnknownKeys=true
     }
@@ -31,11 +38,9 @@ class DefaultAppContainer(private val context : Context): AppContainer{
         retrofit.create(WeatherApiService::class.java)
     }
 
-/*
-    override val weatherRepository: WeatherRepository by lazy {
-        ApiWeatherRepository(retrofitService)
-    }
- */
+    /**
+     * De [WeatherRepository] die wordt gebruikt in de applicatie.
+     */
     override val weatherRepository: WeatherRepository by lazy {
     CachingWeatherRepository(LocatieInfoDb.getDatabase(context = context).locatieInfoDao(), retrofitService)
     }

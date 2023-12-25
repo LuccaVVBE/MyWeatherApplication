@@ -44,6 +44,13 @@ import coil.compose.AsyncImage
 import com.example.myweatherapplication.ui.model.LocatieInfo
 import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
 
+/**
+ * Composable voor het weergeven van de lijst met opgeslagen weerlocaties.
+ *
+ * @param modifier De [Modifier] die wordt toegepast op de composable.
+ * @param goToClickedLocation Callback-functie voor het navigeren naar een gekozen locatie.
+ * @param locationWeatherViewModel [LocationWeatherViewModel] die wordt gebruikt om de lijst met weerlocaties op te halen.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherLocations(modifier: Modifier, goToClickedLocation: (locatie: String) -> Unit, locationWeatherViewModel : LocationWeatherViewModel = viewModel(factory = LocationWeatherViewModel.Factory)) {
@@ -112,6 +119,13 @@ fun WeatherLocations(modifier: Modifier, goToClickedLocation: (locatie: String) 
     }
 }
 
+/**
+ * Composable voor het weergeven van individuele weerlocatie-informatie in de lijst.
+ *
+ * @param modifier De [Modifier] die wordt toegepast op de composable.
+ * @param goToClickedLocation Callback-functie voor het navigeren naar een gekozen locatie.
+ * @param locatie [LocatieInfo] met informatie over de weerlocatie.
+ */
 @Composable
 fun WeatherLocation(modifier: Modifier, goToClickedLocation: (locatie: String) -> Unit, locatie: LocatieInfo) {
     Row(

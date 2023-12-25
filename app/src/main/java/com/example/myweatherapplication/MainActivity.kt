@@ -13,13 +13,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.myweatherapplication.ui.WeatherApp
 import com.example.myweatherapplication.ui.theme.MyWeatherApplicationTheme
 
+/**
+ * Main activity van de weer-applicatie.
+ */
 class MainActivity : ComponentActivity() {
+
+    /**
+     * Wordt opgeroepen wanneer de activity wordt aangemaakt. Hier wordt de UI ingesteld met behulp van Compose.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
 
             MyWeatherApplicationTheme {
-                // A surface container using the 'background' color from the theme
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

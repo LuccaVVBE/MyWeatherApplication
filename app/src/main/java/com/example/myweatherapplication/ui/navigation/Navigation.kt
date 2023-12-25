@@ -25,6 +25,15 @@ import com.example.myweatherapplication.ui.components.WeatherLocations
 import com.example.myweatherapplication.ui.viewModel.HomeViewModel
 
 
+/**
+ * Composable die de navigatie van de app beheert en de bijbehorende schermen weergeeft.
+ *
+ * @param navController De [NavHostController] die de navigatie tussen schermen beheert.
+ * @param innerPadding [PaddingValues] voor de lay-out.
+ * @param isAddingVisible Geeft aan of het scherm voor het toevoegen van een locatie zichtbaar is.
+ * @param makeInvisible Functie om het toevoegscherm onzichtbaar te maken.
+ * @param homeViewModel [HomeViewModel] voor het beheer van de hoofdweergave van het weer.
+ */
 @Composable
 fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isAddingVisible:Boolean, makeInvisible : ()->Unit, homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)){
     val uiState by homeViewModel.uiState.collectAsState()
@@ -66,7 +75,7 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
                 val result = homeViewModel.saveNewLocation()
                 when (result) {
                     is HomeViewModel.SaveLocationResult.Success -> {
-                        // Navigate only if the save operation was successful
+                        // Navigeer alleen als de locatie succesvol werd opgeslagen
                         goToClickedLocation(result.loc)
                         homeViewModel.resetNewLocation()
                         makeInvisible()
@@ -135,6 +144,9 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
     }
 }
 
+/**
+ * Enumeratie van richtingen voor de schaalovergang.
+ */
 enum class ScaleTransitionDirection {
     INWARDS,
     OUTWARDS

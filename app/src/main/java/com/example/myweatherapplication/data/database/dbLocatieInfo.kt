@@ -4,6 +4,20 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.myweatherapplication.ui.model.LocatieInfo
 
+/**
+ * Representeert een dataklasse voor het opslaan van locatiegerelateerde informatie in de lokale Room-database.
+ *
+ * @property placeName De naam van de locatie.
+ * @property temp De temperatuur op de locatie.
+ * @property feelsLike De "gevoelstemperatuur" op de locatie.
+ * @property icon Het pictogram dat het weer vertegenwoordigt.
+ * @property windSpeed De windsnelheid op de locatie.
+ * @property windDirection De windrichting op de locatie.
+ * @property pressure De atmosferische druk op de locatie.
+ * @property humidity De luchtvochtigheid op de locatie.
+ * @property visibility Het zicht op de locatie.
+ * @property uv De UV-index op de locatie.
+ */
 @Entity(tableName="locatie_info")
 data class dbLocatieInfo(
     @PrimaryKey
@@ -19,6 +33,11 @@ data class dbLocatieInfo(
     val uv: Double = 0.0
 )
 
+/**
+ * Extensiefunctie om een [LocatieInfo]-object om te zetten naar een [dbLocatieInfo]-object.
+ *
+ * @return De [dbLocatieInfo]-representatie van het [LocatieInfo]-object.
+ */
 fun LocatieInfo.asDbWeatherLocation(): dbLocatieInfo {
     return dbLocatieInfo(
         placeName = this.placeName,
@@ -34,6 +53,11 @@ fun LocatieInfo.asDbWeatherLocation(): dbLocatieInfo {
     )
 }
 
+/**
+ * Extensiefunctie om een [dbLocatieInfo]-object om te zetten naar een [LocatieInfo]-object.
+ *
+ * @return De [LocatieInfo]-representatie van het [dbLocatieInfo]-object.
+ */
 fun dbLocatieInfo.asDomainLocatieInfo(): LocatieInfo {
     return LocatieInfo(
         this.placeName,
@@ -49,6 +73,11 @@ fun dbLocatieInfo.asDomainLocatieInfo(): LocatieInfo {
     )
 }
 
+/**
+ * Extensiefunctie om een lijst van [dbLocatieInfo]-objecten om te zetten naar een lijst van [LocatieInfo]-objecten.
+ *
+ * @return De lijst van [LocatieInfo]-representatie van de lijst van [dbLocatieInfo]-objecten.
+ */
 fun List<dbLocatieInfo>.asDomainLocatieInfoList(): List<LocatieInfo>{
     var weatherLocationList = this.map {
         LocatieInfo(

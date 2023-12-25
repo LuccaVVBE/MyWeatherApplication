@@ -1,8 +1,7 @@
-package com.example.myweatherapplication.ui
+    package com.example.myweatherapplication.ui
 
 
 
-import android.util.Log
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,6 +17,11 @@ import com.example.myweatherapplication.ui.components.WeatherBottomAppBar
 import com.example.myweatherapplication.ui.components.WeatherTopAppBar
 import com.example.myweatherapplication.ui.navigation.Navigation
 
+    /**
+     * Hoofdcomposable voor de weer-app.
+     *
+     * @param navController [NavHostController] voor navigatie binnen de app.
+     */
 @Composable
 fun WeatherApp(navController: NavHostController = rememberNavController()) {
 
@@ -30,7 +34,6 @@ fun WeatherApp(navController: NavHostController = rememberNavController()) {
 
 
     val showAddLocation : ()->Unit = {
-        Log.d("D", "Changing")
         isAddingVisible=!isAddingVisible
     }
     val canNavigateBack = navController.previousBackStackEntry != null

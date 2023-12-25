@@ -23,6 +23,15 @@ import com.example.myweatherapplication.R
 import com.example.myweatherapplication.ui.theme.MyWeatherApplicationTheme
 
 
+/**
+ * Composable voor het maken van een dialoogvenster voor het toevoegen van een nieuwe weerlocatie.
+ *
+ * @param weatherLocationName De naam van de weerlocatie.
+ * @param onWeatherLocationNameChanged De callback-functie die wordt aangeroepen wanneer de weerlocatienaam wordt gewijzigd.
+ * @param onWeatherLocationSave De callback-functie die wordt aangeroepen wanneer de gebruiker de weerlocatie opslaat.
+ * @param onDismissRequest De callback-functie die wordt aangeroepen wanneer het dialoogvenster wordt gesloten.
+ * @param errorMessage Het foutbericht dat moet worden weergegeven (indien aanwezig).
+ */
 @Composable
 fun CreateTask(
     weatherLocationName: String,

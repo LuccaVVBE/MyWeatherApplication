@@ -20,12 +20,19 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel voor het beheren van de status van het locatieweerscherm.
+ *
+ * @param weatherRepository Repository voor het verkrijgen van weergegevens.
+ */
 class LocationWeatherViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(CurrentWeatherState())
     lateinit var uiListState: StateFlow<WeatherLocationListState>
     val uiState: StateFlow<CurrentWeatherState> = _uiState.asStateFlow();
 
-
+    /**
+     * Vertegenwoordigt de status van de weer-API.
+     */
     var weatherApiState: WeatherApiState by mutableStateOf(WeatherApiState.Loading)
         private set
 
@@ -33,27 +40,9 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
         getRepoWeatherLocations()
     }
 
-
-    //    fun getApiWeather(realLocation: String) {
-//        viewModelScope.launch {
-//            try{
-//                //use the repository
-//                //val weatherRepoitory = ApiWeatherRepository() //repo is now injected
-//                val weatherInfo = weatherRepository.getWeatherLocation(realLocation)
-//                _uiState.update {
-//                    it.copy(locatieInfo = weatherInfo)
-//                }
-//                weatherApiState = WeatherApiState.Success
-//            }
-//            catch(e:Exception){
-//                println(e.message)
-//                println(e.localizedMessage)
-//            }
-//            catch (e: IOException){
-//                //show a toast? save a log on firebase? ...
-//                //set the error state
-//                weatherApiState = WeatherApiState.Error
-//            }
+    /**
+     * Haalt de lijst met weergegevens op uit de repository.
+     */
     fun getRepoWeatherLocations() {
         try {
 
@@ -70,30 +59,33 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
         }
     }
 
+    /**
+     * Haalt de weergegevens op voor een specifieke locatie uit de repository.
+     *
+     * @param location De locatie waarvoor weergegevens worden aangevraagd.
+     */
     fun getRepoWeatherLocation(location: String) {
         var isError = false;
         weatherApiState = WeatherApiState.Loading
         viewModelScope.launch {
             try {
 
-                System.out.println("I ran my coroutine scope")
-
-                // Perform the refresh only if the data is not in loading state
+                // Vernieuw de weergegevens voor de opgegeven locatie
                 weatherRepository.refresh(location)
 
-                // Set the API state to success after successful data retrieval
+                // Stel de API-status in op succes na succesvolle gegevensopvraging
                 weatherApiState = WeatherApiState.Success
 
             } catch (e: Exception) {
-                // Set the API state to error in case of an exception
+                // Stel de API-status in op fout in geval van een exception
                 weatherApiState = WeatherApiState.Error
                 isError = true;
             } finally {
-                // Fetch the location information
+                // Haal de locatiegegevens op alleen als er geen fout optrad tijdens vernieuwing
                 if(!isError){
                 val loc = weatherRepository.getWeatherLocation(location).first()
 
-                // Update the UI state with the fetched location information
+                //Werk de UI-status bij met de opgehaalde locatiegegevens
                 _uiState.update {
                     it.copy(locatieInfo = loc)
                 }
@@ -102,6 +94,11 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
         }
     }
 
+    /**
+     * Verwijdert een locatie uit de repository.
+     *
+     * @param location De locatie die moet worden verwijderd.
+     */
     fun removeLocation(location:String){
         viewModelScope.launch {
             val loc = weatherRepository.getWeatherLocation(location)
@@ -110,8 +107,11 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
     }
 
 
-    //object to tell the android framework how to handle the parameter of the viewmodel
+    // Companion object om het Android-framework te vertellen hoe het de ViewModel-parameter moet behandelen.
     companion object {
+        /**
+         * Factory voor het maken van een [LocationWeatherViewModel] met de juiste parameters.
+         */
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application =

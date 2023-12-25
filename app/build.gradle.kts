@@ -3,6 +3,15 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
     id("com.google.devtools.ksp")
+    id("org.jetbrains.dokka") version "1.9.10"
+}
+
+tasks.dokkaHtml {
+    outputDirectory.set(buildDir.resolve("documentation/html"))
+}
+
+tasks.dokkaGfm {
+    outputDirectory.set(buildDir.resolve("documentation/markdown"))
 }
 
 android {
@@ -49,9 +58,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
+
 dependencies {
+    dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.10")
+
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

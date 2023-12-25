@@ -34,6 +34,13 @@ import com.example.myweatherapplication.ui.model.LocatieInfo
 import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
 import com.example.myweatherapplication.ui.viewModel.WeatherApiState
 
+/**
+ * Composable voor het weergeven van het huidige weeroverzicht.
+ *
+ * @param modifier De [Modifier] die wordt toegepast op de composable.
+ * @param currentWeatherViewModel Het [LocationWeatherViewModel] om weerinformatie op te halen.
+ * @param location De naam van de locatie waarvan de weerinformatie moet worden weergegeven.
+ */
 @Composable
 fun CurrentWeatherOverview(
     modifier: Modifier,
@@ -42,7 +49,7 @@ fun CurrentWeatherOverview(
 ) {
     val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
 
-    // Only call getRepoWeatherLocation when the location changes
+    // Roep getRepoWeatherLocation alleen aan wanneer de locatie verandert
     DisposableEffect(location) {
         currentWeatherViewModel.getRepoWeatherLocation(location)
         onDispose {}
@@ -72,6 +79,12 @@ fun CurrentWeatherOverview(
     }
 }
 
+/**
+ * Composable voor het weergeven van locatie-informatie.
+ *
+ * @param locatie De [LocatieInfo] met de locatiegegevens.
+ * @param modifier De [Modifier] die wordt toegepast op de composable.
+ */
 @Composable
 fun WeatherLocationIdentifier(locatie: LocatieInfo, modifier: Modifier) {
     Card(
@@ -98,6 +111,12 @@ fun WeatherLocationIdentifier(locatie: LocatieInfo, modifier: Modifier) {
     }
 }
 
+/**
+ * Composable voor het weergeven van weerinformatie in een raster.
+ *
+ * @param locatieInfo De [LocatieInfo] met de weerinformatie.
+ * @param modifier De [Modifier] die wordt toegepast op de composable.
+ */
 @Composable
 fun WeatherInfoGrid(locatieInfo: LocatieInfo, modifier: Modifier) {
     val cards = listOf(
@@ -122,6 +141,11 @@ fun WeatherInfoGrid(locatieInfo: LocatieInfo, modifier: Modifier) {
     }
 }
 
+/**
+ * Composable voor het weergeven van een weerinfo-kaart.
+ *
+ * @param cardInfo De [CardInfo] met de kaartgegevens.
+ */
 @Composable
 fun MyWeatherInfoCard(cardInfo: CardInfo) {
     Card(
@@ -140,6 +164,14 @@ fun MyWeatherInfoCard(cardInfo: CardInfo) {
     }
 }
 
+/**
+ * Dataklasse voor het opslaan van WeatherInfoCard-informatie.
+ *
+ * @property modifier De [Modifier] die wordt toegepast op de kaart.
+ * @property name De naam van het kaartitem.
+ * @property value De waarde van het kaartitem.
+ * @property unit De eenheid van het kaartitem.
+ */
 data class CardInfo(
     val modifier: Modifier,
     val name: String,
