@@ -8,6 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import com.example.myweatherapplication.ui.WeatherOverviewScreen
 
+/**
+ * Aangepaste [NavigationRail] voor alle navigatie.
+ *
+ * @param selectedDestination De huidige geselecteerde navigatiebestemming.
+ * @param onTabPressed Callback om tabbladselectie te verwerken.
+ * @param modifier Modifier voor de [NavigationRail].
+ */
 @Composable
 fun WeatherNavigationRail(selectedDestination: NavDestination?, onTabPressed: (String) -> Unit, modifier : Modifier = Modifier) {
     NavigationRail(modifier = modifier) {

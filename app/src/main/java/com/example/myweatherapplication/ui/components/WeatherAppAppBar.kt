@@ -12,6 +12,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
+/**
+ * Aangepaste [TopAppBar] voor de weerapplicatie.
+ *
+ * @param canNavigateBack Geeft aan of de terugknop moet worden weergegeven.
+ * @param navigateUp Caellback voor het afhandelen van de navigatie naar boven.
+ * @param currentScreenTitle Huidige schermtitel die wordt weergegeven in de [TopAppBar].
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherAppAppBar(

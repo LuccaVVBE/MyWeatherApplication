@@ -15,7 +15,13 @@ import androidx.navigation.NavDestination
 import com.example.myweatherapplication.R
 import com.example.myweatherapplication.ui.WeatherOverviewScreen
 
-
+/**
+ * Samenstelling voor de inhoud van de navigationdrawer.
+ *
+ * @param selectedDestination De momenteel geselecteerde navigatiebestemming.
+ * @param onTabPressed Callback om tabbladselectie te verwerken.
+ * @param modifier Modifier voor de [Column].
+ */
 @Composable
 fun NavigationDrawerContent(
     selectedDestination: NavDestination?,

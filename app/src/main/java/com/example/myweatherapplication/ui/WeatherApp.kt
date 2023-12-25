@@ -44,6 +44,7 @@ import com.example.myweatherapplication.ui.util.WeatherNavigationType
     /**
      * Hoofdcomposable voor de weer-app.
      *
+     * @param navigationType [WeatherNavigationType] voor type navigatiebalk binnen de app.
      * @param navController [NavHostController] voor navigatie binnen de app.
      */
 @Composable

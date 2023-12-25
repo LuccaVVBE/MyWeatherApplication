@@ -12,6 +12,7 @@ import com.example.myweatherapplication.R
  * Enumeratie van schermen in de weer-applicatie.
  *
  * @property title Resource ID van de titel van het scherm.
+ * @property icon Icon dat getoond kan worden in de navigationbar
  */
 enum class WeatherOverviewScreen(@StringRes val title: Int, val icon: ImageVector) {
     Start(title = R.string.app_name, Icons.Filled.Home),

@@ -37,6 +37,7 @@ import com.example.myweatherapplication.ui.viewModel.WeatherApiState
  * @param modifier De [Modifier] die wordt toegepast op de composable.
  * @param currentWeatherViewModel Het [LocationWeatherViewModel] om weerinformatie op te halen.
  * @param location De naam van de locatie waarvan de weerinformatie moet worden weergegeven.
+ * @param forceNavUp De functie om terug naar boven te navigeren wanneer er eerder geen locatie geselecterd werd.
  */
 @Composable
 fun CurrentWeatherOverview(
