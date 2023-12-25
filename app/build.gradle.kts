@@ -7,11 +7,11 @@ plugins {
 }
 
 tasks.dokkaHtml {
-    outputDirectory.set(buildDir.resolve("documentation/html"))
+    outputDirectory.set(buildDir.resolve("../documentation/html"))
 }
 
 tasks.dokkaGfm {
-    outputDirectory.set(buildDir.resolve("documentation/markdown"))
+    outputDirectory.set(buildDir.resolve("../documentation/markdown"))
 }
 
 android {

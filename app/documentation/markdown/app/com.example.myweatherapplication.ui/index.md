@@ -12,5 +12,5 @@
 
 | Name | Summary |
 |---|---|
-| [WeatherApp](-weather-app.md) | [androidJvm]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [WeatherApp](-weather-app.md)(navController: [NavHostController](https://developer.android.com/reference/kotlin/androidx/navigation/NavHostController.html) = rememberNavController())<br>Hoofdcomposable voor de weer-app. |
+| [WeatherApp](-weather-app.md) | [androidJvm]<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [WeatherApp](-weather-app.md)(navigationType: [WeatherNavigationType](../com.example.myweatherapplication.ui.util/-weather-navigation-type/index.md), navController: [NavHostController](https://developer.android.com/reference/kotlin/androidx/navigation/NavHostController.html) = rememberNavController())<br>Hoofdcomposable voor de weer-app. |
 | [WeatherAppPreview](-weather-app-preview.md) | [androidJvm]<br>@[Preview](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/Preview.html)(showBackground = true)<br>@[Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html)<br>fun [WeatherAppPreview](-weather-app-preview.md)() |
