@@ -22,7 +22,7 @@ Mijn weer app kan gebruikt worden om de actuele weersomstandigheden te bekijken,
 
 ![Overview verschillende schermen](/images/overview.png "Overview schermen")
 
-Originele foto's zijn te vinden in de [images](MyWeatherApplication/blob/master/images) folder
+Originele foto's zijn te vinden in de [images](images) folder
 
 ## Aan de slag
 
