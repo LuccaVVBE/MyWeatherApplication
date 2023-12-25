@@ -4,6 +4,5 @@
     <string name="Local">Local</string>
     <string name="back_button">back</string>
     <string name="detail">Chosen Location</string>
-    <string name="expand_button_content_description">Expand task item</string>
     <string name="navigation_rail">Navigate between items here</string>
 </resources>
