@@ -1,0 +1,14 @@
+//[app](../../index.md)/[com.example.myweatherapplication.ui.viewModel](index.md)
+
+# Package-level declarations
+
+## Types
+
+| Name | Summary |
+|---|---|
+| [CurrentWeatherState](-current-weather-state/index.md) | [androidJvm]<br>data class [CurrentWeatherState](-current-weather-state/index.md)(val locatieInfo: [LocatieInfo](../com.example.myweatherapplication.ui.model/-locatie-info/index.md) = LocatieInfo(         placeName = &quot;Fetching...&quot;,         temp =15.0,         feelsLike = 10.0,         icon =&quot;&quot;,         windSpeed =14.0,         windDirection =210,         pressure =1013.0,         humidity =60,         visibility =15.0,         uv =2.0), val newLocationName: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = &quot;&quot;)<br>Representeert de staat van de huidige weersinformatie in de weer-applicatie. |
+| [HomeState](-home-state/index.md) | [androidJvm]<br>data class [HomeState](-home-state/index.md)(val chosenLocation: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = &quot;&quot;, val newLocationName: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = &quot;&quot;, val errorMessage: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = &quot;&quot;)<br>Representeert de staat van het startscherm in de weer-applicatie. |
+| [HomeViewModel](-home-view-model/index.md) | [androidJvm]<br>class [HomeViewModel](-home-view-model/index.md)(weatherRepository: [WeatherRepository](../com.example.myweatherapplication.data/-weather-repository/index.md)) : [ViewModel](https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html)<br>ViewModel voor het beheren van de staat van de Home Screen. |
+| [LocationWeatherViewModel](-location-weather-view-model/index.md) | [androidJvm]<br>class [LocationWeatherViewModel](-location-weather-view-model/index.md)(weatherRepository: [WeatherRepository](../com.example.myweatherapplication.data/-weather-repository/index.md)) : [ViewModel](https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html)<br>ViewModel voor het beheren van de status van het locatieweerscherm. |
+| [WeatherApiState](-weather-api-state/index.md) | [androidJvm]<br>interface [WeatherApiState](-weather-api-state/index.md)<br>Gesealde interface die de status van de weer-API-aanroepen vertegenwoordigt. |
+| [WeatherLocationListState](-weather-location-list-state/index.md) | [androidJvm]<br>data class [WeatherLocationListState](-weather-location-list-state/index.md)(val weatherLocationList: [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)&lt;[LocatieInfo](../com.example.myweatherapplication.ui.model/-locatie-info/index.md)&gt; = listOf())<br>Representeert de staat van de lijst met weerlocaties in de weer-applicatie. |
