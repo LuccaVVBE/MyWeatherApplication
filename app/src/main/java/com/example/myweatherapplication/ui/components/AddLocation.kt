@@ -59,6 +59,7 @@ fun CreateLocation(
                 modifier = Modifier
                     .padding(dimensionResource(R.dimen.largePadding)),
             ) {
+                Text("Enter location name:")
                 OutlinedTextField(
                     value = weatherLocationName,
                     onValueChange = onWeatherLocationNameChanged,
