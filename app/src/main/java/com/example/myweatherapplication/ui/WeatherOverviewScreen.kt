@@ -15,7 +15,7 @@ import com.example.myweatherapplication.R
  * @property icon Icon dat getoond kan worden in de navigationbar
  */
 enum class WeatherOverviewScreen(@StringRes val title: Int, val icon: ImageVector) {
-    Start(title = R.string.app_name, Icons.Filled.Home),
+    Start(title = R.string.Homescreen, Icons.Filled.Home),
     List(title = R.string.List, Icons.Filled.List),
     Detail(title = R.string.detail, Icons.Filled.Search)
 }
