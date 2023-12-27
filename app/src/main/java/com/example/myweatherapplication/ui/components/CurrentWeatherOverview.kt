@@ -1,7 +1,6 @@
 package com.example.myweatherapplication.ui.components
 
 import android.widget.Toast
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -91,6 +89,7 @@ fun CurrentWeatherOverview(
  * Composable voor het weergeven van locatie-informatie.
  *
  * @param locatie De [LocatieInfo] met de locatiegegevens.
+ * @param isError Boolean die aanduidt of [WeatherApiState] een [WeatherApiState.Error] is.
  * @param modifier De [Modifier] die wordt toegepast op de composable.
  */
 @Composable
