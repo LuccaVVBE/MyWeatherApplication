@@ -35,7 +35,6 @@ import com.example.myweatherapplication.ui.theme.MyWeatherApplicationTheme
  * @param onDismissRequest De callback-functie die wordt aangeroepen wanneer het dialoogvenster wordt gesloten.
  * @param errorMessage Het foutbericht dat moet worden weergegeven (indien aanwezig).
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CreateLocation(
     weatherLocationName: String,

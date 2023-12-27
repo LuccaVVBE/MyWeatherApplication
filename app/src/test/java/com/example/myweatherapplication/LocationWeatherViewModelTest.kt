@@ -1,9 +1,12 @@
-package com.example.myweatherapplication.ui.viewModel
+package com.example.myweatherapplication
 
 import com.example.myweatherapplication.data.WeatherRepository
 import com.example.myweatherapplication.ui.model.LocatieInfo
+import com.example.myweatherapplication.ui.viewModel.LocationWeatherViewModel
+import com.example.myweatherapplication.ui.viewModel.WeatherApiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -37,18 +40,10 @@ class LocationWeatherViewModelTest {
         locationWeatherViewModel = LocationWeatherViewModel(weatherRepository)
     }
 
-/*    @Test
+    @Test
     fun `test getRepoWeatherLocations success`() = runTest {
-        // Mock the behavior of WeatherRepository
-        val mockLocations = listOf(
-            LocatieInfo("first", 0.0, 0.0, "", 0.0, 0, 0.0, 0, 0.0, 0.0),
-            LocatieInfo("second", 0.0, 0.0, "", 0.0, 0, 0.0, 0, 0.0, 0.0)
-        )
-        Mockito.`when`(weatherRepository.getWeatherLocations()).thenAnswer {
-            MutableStateFlow(
-                mockLocations
-            )
-        }
+        //Mock
+        Mockito.`when`(weatherRepository.getWeatherLocations()).thenReturn(flowOf())
 
         // Call the method you want to test
         locationWeatherViewModel.getRepoWeatherLocations()
@@ -56,8 +51,8 @@ class LocationWeatherViewModelTest {
 
         // Verify the expected state after the method call
         assertEquals(WeatherApiState.Success, locationWeatherViewModel.weatherApiState)
-        assertEquals(mockLocations, locationWeatherViewModel.uiListState.value.weatherLocationList)
-    }*/
+        assertEquals(listOf<LocatieInfo>(), locationWeatherViewModel.uiListState.value.weatherLocationList)
+    }
 
     @Test
     fun `test getRepoWeatherLocations error`() = runTest {
@@ -67,9 +62,9 @@ class LocationWeatherViewModelTest {
         // Call the method you want to test
         locationWeatherViewModel.getRepoWeatherLocations()
 
+
         // Verify the expected state after the method call
-        assertEquals(WeatherApiState.Error, locationWeatherViewModel.weatherApiState)
-        // You might want to check other aspects of the state or behavior in case of an error
+        assertEquals(WeatherApiState.Error("Error: Some error"), locationWeatherViewModel.weatherApiState)
     }
 
 
@@ -93,13 +88,14 @@ class LocationWeatherViewModelTest {
     fun `test getRepoWeatherLocation error`() = runTest {
         // Mock the behavior of WeatherRepository to throw an exception
         val locationName = "TestLocation"
-        Mockito.`when`(weatherRepository.refresh(locationName)).thenThrow(RuntimeException())
+        Mockito.`when`(weatherRepository.refresh(locationName)).thenThrow(RuntimeException("Some error"))
+        Mockito.`when`(weatherRepository.getWeatherLocation(locationName)).thenReturn(flowOf())
         val initialLoc = locationWeatherViewModel.uiState.value.locatieInfo
         // Call the method you want to test
         locationWeatherViewModel.getRepoWeatherLocation(locationName)
 
         // Verify the expected state after the method call
-        assertEquals(WeatherApiState.Error, locationWeatherViewModel.weatherApiState)
+        assertEquals(WeatherApiState.Error("Error: Some error"), locationWeatherViewModel.weatherApiState)
         // Ensure that locatieInfo remains unchanged when there is an error
         assertEquals(initialLoc, locationWeatherViewModel.uiState.value.locatieInfo)
     }
@@ -118,14 +114,3 @@ class LocationWeatherViewModelTest {
     }
 }
 
-class TestDispatcherRule(
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
-) : TestWatcher() {
-    override fun starting(description: Description) {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    override fun finished(description: Description) {
-        Dispatchers.resetMain()
-    }
-}

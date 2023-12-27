@@ -20,7 +20,7 @@ import org.junit.Test
 
 class NavigationTest {
     private val locationName: String = "Brussel"
-    private val errorMessage : String = "Location could not be found, check the spelling again or your internet connection"
+    private val errorMessage : String = "Error: could not find location"
     @get:Rule
     val composeTestRule = createComposeRule()
     private lateinit var navController: TestNavHostController

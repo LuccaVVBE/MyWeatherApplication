@@ -1,3 +1,4 @@
+package com.example.myweatherapplication
 
 import com.example.myweatherapplication.data.WeatherRepository
 import com.example.myweatherapplication.ui.viewModel.HomeViewModel
@@ -16,8 +17,6 @@ import org.junit.runner.Description
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.stubbing.Answer
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
@@ -80,15 +79,3 @@ class HomeViewModelTest {
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class TestDispatcherRule(
-    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
-) : TestWatcher() {
-    override fun starting(description: Description) {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    override fun finished(description: Description) {
-        Dispatchers.resetMain()
-    }
-}

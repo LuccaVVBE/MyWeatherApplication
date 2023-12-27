@@ -26,11 +26,11 @@ class LocatieInfoDaoTest {
     private var locatie2 = LocatieInfo("second", 0.0,0.0,"",0.0,0,0.0,0,0.0,0.0)
 
     // utility functions
-    private suspend fun addOneLocatieInfoToDb() {
+    private suspend fun addOneWeatherLocationsToDb() {
         locatieInfoDao.insert(locatie1.asDbWeatherLocation())
     }
 
-    private suspend fun addTwoTasksToDb() {
+    private suspend fun addTwoWeatherLocationsToDb() {
         locatieInfoDao.insert(locatie1.asDbWeatherLocation())
         locatieInfoDao.insert(locatie2.asDbWeatherLocation())
     }
@@ -55,18 +55,41 @@ class LocatieInfoDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun daoInert_insertTaskIntoDB() = runBlocking {
-        addOneLocatieInfoToDb()
+    fun daoInert_insertWeatherLocationIntoDB() = runBlocking {
+        addOneWeatherLocationsToDb()
         val allItems = locatieInfoDao.getAllItems().first()
         assertEquals(allItems[0].asDomainLocatieInfo(), locatie1)
     }
 
     @Test
     @Throws(Exception::class)
-    fun daoGetAllTasks_returnsAllTasksFromDB() = runBlocking {
-        addTwoTasksToDb()
+    fun daoGetAllWeatherLocations_returnsAllWeatherLocationsFromDB() = runBlocking {
+        addTwoWeatherLocationsToDb()
         val allItems = locatieInfoDao.getAllItems().first()
         assertEquals(allItems[0].asDomainLocatieInfo(), locatie1)
         assertEquals(allItems[1].asDomainLocatieInfo(), locatie2)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun daoUpdateLocation_updatesToDb() = runBlocking{
+        addOneWeatherLocationsToDb()
+        var items  = locatieInfoDao.getAllItems().first()
+        assertEquals(0.0, items[0].temp,0.0)
+        locatie1.temp = 1.0
+        locatieInfoDao.update(locatie1.asDbWeatherLocation())
+        items = locatieInfoDao.getAllItems().first()
+        assertEquals(1.0, items[0].temp, 0.0)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun daoRemoveLocation_deletesFromDb() = runBlocking{
+        addOneWeatherLocationsToDb()
+        var items  = locatieInfoDao.getAllItems().first()
+        assertEquals(1, items.size)
+        locatieInfoDao.delete(locatie1.asDbWeatherLocation())
+        items = locatieInfoDao.getAllItems().first()
+        assertEquals(0, items.size)
     }
 }
