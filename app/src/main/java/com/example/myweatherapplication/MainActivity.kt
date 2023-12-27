@@ -67,6 +67,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MyWeatherApplicationTheme {
-        WeatherApp(WeatherNavigationType.BOTTOM_NAVIGATION);
+        WeatherApp(WeatherNavigationType.BOTTOM_NAVIGATION)
     }
 }

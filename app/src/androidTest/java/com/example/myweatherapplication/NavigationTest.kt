@@ -23,7 +23,7 @@ class NavigationTest {
     private val errorMessage : String = "Location could not be found, check the spelling again or your internet connection"
     @get:Rule
     val composeTestRule = createComposeRule()
-    lateinit var navController: TestNavHostController
+    private lateinit var navController: TestNavHostController
 
     @Before
     fun setupAppNavHost() {

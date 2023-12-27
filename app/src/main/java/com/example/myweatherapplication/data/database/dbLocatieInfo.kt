@@ -79,7 +79,7 @@ fun dbLocatieInfo.asDomainLocatieInfo(): LocatieInfo {
  * @return De lijst van [LocatieInfo]-representatie van de lijst van [dbLocatieInfo]-objecten.
  */
 fun List<dbLocatieInfo>.asDomainLocatieInfoList(): List<LocatieInfo>{
-    var weatherLocationList = this.map {
+    val weatherLocationList = this.map {
         LocatieInfo(
             it.placeName,
             it.temp,

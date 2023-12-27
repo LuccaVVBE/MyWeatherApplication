@@ -1,6 +1,5 @@
 package com.example.myweatherapplication.data
 
-import android.util.Log
 import com.example.myweatherapplication.data.database.LocatieInfoDao
 import com.example.myweatherapplication.data.database.asDbWeatherLocation
 import com.example.myweatherapplication.data.database.asDomainLocatieInfo

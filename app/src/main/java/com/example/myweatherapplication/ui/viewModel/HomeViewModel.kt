@@ -37,7 +37,7 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
      *
      * @param delimter Aanduiding op welk karakter de string gesplitst wordt.
      */
-    fun String.capitalizeWords(delimiter: String = " ") =
+    private fun String.capitalizeWords(delimiter: String = " ") =
         split(delimiter).joinToString(delimiter) { word ->
 
             val smallCaseWord = word.lowercase()

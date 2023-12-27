@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
@@ -59,6 +58,6 @@ fun NavigationDrawerContent(
             )
         }
         Spacer(modifier = Modifier.weight(1f))
-        Image(bitmap = ImageBitmap.imageResource(R.drawable.weatherlogo), "", Modifier.size(128.dp).align(Alignment.CenterHorizontally) )
+        Image(bitmap = ImageBitmap.imageResource(R.mipmap.weatherlogo), "", Modifier.size(128.dp).align(Alignment.CenterHorizontally) )
     }
 }

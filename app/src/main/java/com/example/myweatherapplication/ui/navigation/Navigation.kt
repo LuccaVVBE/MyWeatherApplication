@@ -76,8 +76,7 @@ fun Navigation(navController: NavHostController, innerPadding:PaddingValues, isA
             weatherLocationName = uiState.newLocationName,
             onWeatherLocationNameChanged = {homeViewModel.setNewLocationName(it)},
             onWeatherLocationSave = {
-                val result = homeViewModel.saveNewLocation()
-                when (result) {
+                when (val result = homeViewModel.saveNewLocation()) {
                     is HomeViewModel.SaveLocationResult.Success -> {
                         // Navigeer alleen als de locatie succesvol werd opgeslagen
                         goToClickedLocation(result.loc)

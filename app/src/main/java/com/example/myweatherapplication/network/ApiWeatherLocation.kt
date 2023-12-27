@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
  * @property location De [ApiWeatherLocation] die de locatiegegevens bevat.
  * @property current De [ApiWeatherCurrent] die de huidige weerinformatie bevat.
  */
-@Serializable()
+@Serializable
 data class ApiWeatherLocationInfo(val location:ApiWeatherLocation,
                                   val current: ApiWeatherCurrent,
 )

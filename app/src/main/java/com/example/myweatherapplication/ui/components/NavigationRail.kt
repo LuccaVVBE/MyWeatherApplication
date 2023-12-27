@@ -39,7 +39,7 @@ fun WeatherNavigationRail(selectedDestination: NavDestination?, onTabPressed: (S
             )
         }
         Spacer(modifier = Modifier.weight(1f))
-        Image(bitmap = ImageBitmap.imageResource(R.drawable.weatherlogo), "", Modifier.size(48.dp) )
+        Image(bitmap = ImageBitmap.imageResource(R.mipmap.weatherlogo), "", Modifier.size(48.dp) )
     }
 
 }

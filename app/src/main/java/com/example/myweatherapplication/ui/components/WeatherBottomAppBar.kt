@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
  * Composable voor de bottombar van de weerapplicatie.
  *
  * @param goHome Callback-functie voor het navigeren naar het startscherm.
- * @param goToAbout Callback-functie voor het navigeren naar de lijstpagina.
+ * @param goToList Callback-functie voor het navigeren naar de lijstpagina.
  * @param showAddLocation Callback-functie voor het tonen van het dialoogvenster voor het toevoegen van een nieuwe locatie.
  */
 @Composable
