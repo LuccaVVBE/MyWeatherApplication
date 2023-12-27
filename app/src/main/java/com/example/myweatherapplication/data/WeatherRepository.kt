@@ -1,5 +1,6 @@
 package com.example.myweatherapplication.data
 
+import android.util.Log
 import com.example.myweatherapplication.data.database.LocatieInfoDao
 import com.example.myweatherapplication.data.database.asDbWeatherLocation
 import com.example.myweatherapplication.data.database.asDomainLocatieInfo
@@ -97,15 +98,14 @@ class CachingWeatherRepository(private val locatieInfoDao:LocatieInfoDao, privat
         locatieInfoDao.update(locatieInfo.asDbWeatherLocation())
     }
 
-    override suspend fun refresh(loc:String):String{
+    override suspend fun refresh(loc:String):String {
         try {
             val location = weatherApiService.getWeatherLocationAsFlow(loc).asDomainObject().first()
             insertWeatherLocation(location)
             return location.placeName
-        }catch (e:Error){
+        } catch (e: Error) {
             throw Exception()
         }
-
     }
 
 }

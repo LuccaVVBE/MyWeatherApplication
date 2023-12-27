@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -55,7 +56,7 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
                     )
             weatherApiState = WeatherApiState.Success
         } catch (e: Exception) {
-            weatherApiState = WeatherApiState.Error
+            weatherApiState = WeatherApiState.Error("Error: ".plus(e.localizedMessage))
         }
     }
 
@@ -76,19 +77,25 @@ class LocationWeatherViewModel(private val weatherRepository: WeatherRepository)
                 // Stel de API-status in op succes na succesvolle gegevensopvraging
                 weatherApiState = WeatherApiState.Success
 
+
+
             } catch (e: Exception) {
                 // Stel de API-status in op fout in geval van een exception
-                weatherApiState = WeatherApiState.Error
+                weatherApiState = if(e.localizedMessage?.contains("host")==true)
+                    WeatherApiState.Error("Error: ".plus("No internet connection"))
+                else
+                    WeatherApiState.Error("Error: ".plus(e.localizedMessage))
                 isError = true;
             } finally {
-                // Haal de locatiegegevens op alleen als er geen fout optrad tijdens vernieuwing
-                if(!isError){
-                val loc = weatherRepository.getWeatherLocation(location).first()
 
-                //Werk de UI-status bij met de opgehaalde locatiegegevens
-                _uiState.update {
-                    it.copy(locatieInfo = loc)
-                }
+                val loc = weatherRepository.getWeatherLocation(location).firstOrNull()
+
+                if(loc !=null) {
+                    //Werk de UI-status bij met de opgehaalde locatiegegevens, indien ze bestaan in de database.
+                    _uiState.update {
+                        it.copy(locatieInfo = loc)
+
+                    }
                 }
             }
         }

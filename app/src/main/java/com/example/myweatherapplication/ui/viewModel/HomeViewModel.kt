@@ -86,9 +86,15 @@ class HomeViewModel(private val weatherRepository: WeatherRepository) : ViewMode
                 SaveLocationResult.Success(weatherRepository.refresh(uiState.value.newLocationName));
             }
         } catch (e: Exception) {
+            if(e.localizedMessage?.contains("host")==true)
             _uiState.update {
-                it.copy(errorMessage = "Location could not be found, check the spelling again or your internet connection")
+                it.copy(errorMessage = "Error: No internet connection")
             }
+            else
+                _uiState.update {
+                    it.copy(errorMessage = "Error: could not find location")
+                }
+
             SaveLocationResult.Error
         }
     }

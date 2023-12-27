@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.runtime.Composable
@@ -24,7 +25,7 @@ import com.example.myweatherapplication.ui.WeatherOverviewScreen
  */
 @Composable
 fun WeatherNavigationRail(selectedDestination: NavDestination?, onTabPressed: (String) -> Unit, modifier : Modifier = Modifier) {
-    NavigationRail(modifier = modifier) {
+    NavigationRail(modifier = modifier, containerColor = MaterialTheme.colorScheme.primaryContainer) {
         for (navItem in WeatherOverviewScreen.values()) {
             NavigationRailItem(
                 selected = selectedDestination?.route == navItem.name,

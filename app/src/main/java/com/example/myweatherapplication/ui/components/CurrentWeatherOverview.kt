@@ -6,14 +6,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,14 +51,16 @@ fun CurrentWeatherOverview(
     location: String = "Gent",
     forceNavUp: ()->Unit
 ) {
-    if(location.isBlank()){
-        forceNavUp()
-    }
+
     val currentWeatherState by currentWeatherViewModel.uiState.collectAsState()
 
     // Roep getRepoWeatherLocation alleen aan wanneer de locatie verandert
     DisposableEffect(location) {
-        currentWeatherViewModel.getRepoWeatherLocation(location)
+        if(location.isBlank()){
+            forceNavUp()
+        } else {
+            currentWeatherViewModel.getRepoWeatherLocation(location)
+        }
         onDispose {}
     }
 
@@ -65,16 +72,16 @@ fun CurrentWeatherOverview(
 
     DisposableEffect(currentWeatherViewModel.weatherApiState) {
         when (currentWeatherViewModel.weatherApiState) {
-            is WeatherApiState.Loading -> createToast("Loading...")
-            is WeatherApiState.Error -> createToast("Error getting latest info.")
+            is WeatherApiState.Error -> createToast((currentWeatherViewModel.weatherApiState as WeatherApiState.Error).message)
             is WeatherApiState.Success -> createToast("Successfully fetched latest info.")
+            else -> {}
         }
         onDispose {  }
     }
 
 
 
-    WeatherLocationIdentifier(locatie = currentWeatherState.locatieInfo, modifier = modifier)
+    WeatherLocationIdentifier(locatie = currentWeatherState.locatieInfo, isError = currentWeatherViewModel.weatherApiState is WeatherApiState.Error , modifier = modifier)
     Column(modifier = modifier.padding(top = 100.dp)) {
         WeatherInfoGrid(currentWeatherState.locatieInfo, modifier)
     }
@@ -87,7 +94,7 @@ fun CurrentWeatherOverview(
  * @param modifier De [Modifier] die wordt toegepast op de composable.
  */
 @Composable
-fun WeatherLocationIdentifier(locatie: LocatieInfo, modifier: Modifier) {
+fun WeatherLocationIdentifier(locatie: LocatieInfo, isError:Boolean, modifier: Modifier) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -96,12 +103,15 @@ fun WeatherLocationIdentifier(locatie: LocatieInfo, modifier: Modifier) {
             .height(height = 100.dp)
             .fillMaxWidth()
     ) {
-        Text(
-            text = locatie.placeName,
-            modifier = modifier
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+        Row(modifier = modifier.align(Alignment.CenterHorizontally)) {
+            Text(
+                text = locatie.placeName ,
+                modifier = modifier
+                    .padding(16.dp)
+            )
+            if(isError){ Icon(Icons.Filled.Warning, "Error icon", tint=MaterialTheme.colorScheme.error)}
+
+        }
         AsyncImage(
             model = "https:".plus(locatie.icon),
             contentDescription = "Weather icon",

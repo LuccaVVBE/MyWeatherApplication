@@ -44,7 +44,7 @@ sealed interface WeatherApiState{
     /**
      * Geeft aan dat er een fout is opgetreden tijdens de weer-API-aanroep.
      */
-    object Error: WeatherApiState
+    data class Error(val message:String): WeatherApiState
 
     /**
      * Geeft aan dat de weer-API-aanroep bezig is met laden.

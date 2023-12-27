@@ -24,5 +24,5 @@ data class LocatieInfo(
     var pressure: Double,
     var humidity:Int,
     var visibility: Double,
-    var uv: Double
+    var uv: Double,
 )
